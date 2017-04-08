@@ -1,4 +1,5 @@
-from flask.ext.login import current_user
+from flask import jsonify
+from flask_login import current_user
 from functools import wraps
 
 
