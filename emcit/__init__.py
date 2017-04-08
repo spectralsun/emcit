@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from urlparse import urlparse
+
 from emcit.api import (
     #account_api,
     #user_api,
@@ -7,13 +9,13 @@ from emcit.api import (
 
 app = Flask(__name__)
 
-@app.route('/mobile')
-def mobile():
-    return render_template('mobile.html')
+@app.route('/')
+def index():
+    if urlparse(request.url).hostname[:6] == 'mobile':
+        return render_template('mobile.html')
+    else:
+        return render_template('desktop.html')
 
-@app.route('/desktop')
-def desktop():
-    return render_template('desktop.html')
 
 #app.register_blueprint(account_api, url_prefix='/api/v1/account')
 #app.register_blueprint(user_api, url_prefix='/api/v1/user')
