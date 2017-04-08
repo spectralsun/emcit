@@ -34,7 +34,7 @@ def seed_db():
         'admin').save()
     models.User(
         'Analyst Adam', '13th Precinct', 'adam@example.com', '1234', '5415551234',
-        'analyzer').save()
+        'analyst').save()
     models.User(
         'Repoter Rob', 'Vigilante', 'rob@example.com', '1234', '5415551234',
         'reporter').save()

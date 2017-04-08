@@ -28,7 +28,7 @@ class User(Model):
     email = Column(String(255), nullable=False, unique=True)
     password = Column(Text, nullable=False)
     phone_number = Column(String(20), nullable=True)
-    role = Column(Enum('admin', 'analyzer', 'reporter'), default='reporter')
+    role = Column(Enum('admin', 'analyst', 'reporter'), default='reporter')
 
     def __init__(self, name, organization, email, password, phone_number, role):
         self.name = name
@@ -62,8 +62,8 @@ class User(Model):
         return self.role == 'admin'
 
     @property
-    def is_analyzer(self):
-        return self.role == 'analyzer'
+    def is_analyst(self):
+        return self.role == 'analyst'
 
     @property
     def is_reporter(self):
