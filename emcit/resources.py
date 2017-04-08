@@ -39,3 +39,15 @@ def PersonResource(person):
         skin=person.skin,
         sex=person.sex
     )
+
+def UserAdministrationResource(user):
+    return dict(
+        id=user.id,
+        created_at=user.created_at,
+        updated=user.updated,
+        name=user.name,
+        email=user.email,
+        password=user.password,
+        phone_number=user.phone_number,
+        role=user.role
+    )

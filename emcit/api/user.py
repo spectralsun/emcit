@@ -1,93 +1,62 @@
 """User administration API"""
-from flask import jsonfiy
-from flask.ext.login import current_user
-
-from emcit.forms import BaseUserForm, FullUserForm
+from flask import request, jsonify, Blueprint
+from flask_login import current_user
 from emcit.models import User
 from emcit.resources import UserAdministrationResource
 from emcit.util import required_access, api_error
 
-
 user_api = Blueprint('user_api', __name__)
-
 
 @user_api.route('', methods=['GET'])
 @required_access('admin')
 def get_users():
-    """
-    Get a list of all users.
-    """
-    return jsonify(User.all().map(UserAdministrationResource))
+    return jsonify(map(UserAdministrationResource, User.all()))
 
 
 @user_api.route('/<int:user_id>', methods=['GET'])
 @required_access('admin')
 def get_user(user_id):
-    """
-    Gets a user by id.
-    """
     return jsonify(UserAdministrationResource(User.get(user_id)))
 
 
 @user_api.route('', methods=['POST'])
 @required_access('admin')
 def create_user():
-    """
-    Create an user account.
-    """
-    form = FullUserForm()
-    if not form.validate_on_submit():
-        return api_error(form.errors)
-    user = User(
-        name=form.name.data,
-        organization=form.organization.data,
-        email=form.email.data,
-        password=form.password.data,
-        phone_number=form.phone_number.data,
-        role=form.role.data
-    )
+    user = User.from_json(request.get_json())
     user.save()
     return jsonify(UserAdministrationResource(user))
 
 @user_api.route('/<int:user_id>', methods=['PUT'])
 @required_access('admin')
 def update_user(user_id):
-    """
-    Update an user account.
-    """
-    user = User.get(user_id)
+    user = User.get_by_id(user_id)
+
     if not user:
         return api_error('User not found', 404)
-    form_kwargs = dict(
-        validate_unique_email=user.email != request.json.get('email')
-    )
-    if 'password' in request.json:
-        form = FullUserForm(**form_kwargs)
-    else:
-        form = BaseUserForm(**form_kwargs)
-    if not form.validate_on_submit():
-        return api_error(form.errors)
-    user.email = form.email.data
-    if 'password' in request.json:
-        user.set_password(form.password.data)
-    user.name = form.name.data
-    user.organization = form.organization.data
-    user.phone_number = form.phone_number.data
-    user.role = form.role.data
-    user.save()
-    return jsonify(user)
 
+    json = request.get_json()
+
+    if 'password' in request.json:
+        user.set_password(json.get('password'))
+
+    user.name = json.get('name')
+    user.email = json.get('email')
+    user.phone_number = json.get('phone_number')
+    user.role = json.get('role')
+    user.save()
+
+    return jsonify(UserAdministrationResource(user))
 
 @user_api.route('/<int:id>', methods=['DELETE'])
 @required_access('admin')
 def delete_user(id):
-    """
-    Delete an user.
-    """
     user = User.get(id)
+
     if not user:
         return api_error('User not found', 404)
     if user.id == current_user.id:
         return api_error('Cannot delete self', 404)
+
     user.delete()
+
     return '', 202
