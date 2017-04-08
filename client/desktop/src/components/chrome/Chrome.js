@@ -13,8 +13,8 @@ class Chrome extends React.Component {
             <div>
                 <AppBar title="Emcit Desktop">
                     <Navigation type="horizontal">
-                        {!user && <Link to="/login">Login</Link>}
-                        {user && <div>{user.name}</div>}
+                        {user && <div data-react-toolbox="link">{user.name}</div>}
+                        {user && <div data-react-toolbox="link"><a href="/logout">Logout</a></div>}
                     </Navigation>
                 </AppBar>
                 {this.props.children}
