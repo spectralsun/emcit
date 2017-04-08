@@ -1,15 +1,16 @@
 .loginPage {
 
-.loginBox {
+    padding: 10px;
 
-    max-width: 400px;
-    margin: 10% auto;
+    .loginBox {
 
-    button {
-        float: right;
+        max-width: 400px;
+        margin: 10% auto;
+
+        button {
+            float: right;
+        }
     }
-}
-
 }
 
 
