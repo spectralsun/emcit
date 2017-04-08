@@ -21,16 +21,17 @@
     "react": "^15.5.3",
     "react-dom": "^15.5.3",
     "react-redux": "^5.0.3",
-    "react-router": "^4.0.0",
+    "react-router": "2.6.0",
     "react-router-redux": "^4.0.8",
+    "react-toolbox": "^2.0.0-beta.8",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.1.2"
   },
   "scripts": {
-      "watch-mobile": "node_modules/.bin/webpack -w --config mobile/webpack.config.js",
-      "watch-desktop": "node_modules/.bin/webpack -w --config desktop/webpack.config.js",
-      "buiild-mobile": "node_modules/.bin/webpack --config mobile/webpack.config.js",
-      "buiild-desktop": "node_modules/.bin/webpack --config desktop/webpack.config.js",
+    "watch-mobile": "node_modules/.bin/webpack -w --config mobile/webpack.config.js",
+    "watch-desktop": "node_modules/.bin/webpack -w --config desktop/webpack.config.js",
+    "buiild-mobile": "node_modules/.bin/webpack --config mobile/webpack.config.js",
+    "buiild-desktop": "node_modules/.bin/webpack --config desktop/webpack.config.js"
   }
 }

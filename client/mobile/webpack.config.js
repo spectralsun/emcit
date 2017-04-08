@@ -42,7 +42,9 @@ const config = {
     postcss: require('./../postcss.config.js'),
     resolve: {
         alias: {
-            common: __dirname + '/../common'
+            common: __dirname + '/../common',
+            c: __dirname + '/src/components',
+            reducers: __dirname + '/src/reducers'
         },
         extensions: ['', '.js', '.jsx', '.css'],
         modulesDirectories: [
