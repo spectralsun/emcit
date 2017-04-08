@@ -126,10 +126,10 @@ class Person(Model):
     type = Column(Enum('suspicious_person', 'victim', 'buyer', name='person_type'), default=None, nullable=False)
     height = Column(String(255), nullable=True)
     weight = Column(String(255), nullable=True)
-    hair_color  = Column(String(255), nullable=True)
+    hair_color = Column(String(255), nullable=True)
     hair_length = Column(String(255), nullable=True)
     eye_color = Column(String(255), nullable=True)
-    skin =Column(String(255), nullable=True)
+    skin = Column(String(255), nullable=True)
     sex = Column(String(255), nullable=True)
 
     def __init__(self, report_id, name, type, height, weight, hair_color, hair_length, eye_color, skin, sex):
@@ -251,5 +251,25 @@ class Report(Model):
         """Return user based on email."""
         return cls.query.all()
 
+    @classmethod
+    def filter(cls, filters):
+        """
+        This takes a list of filter dicts that correspond to the values in a SQLAlchemy filter.
+        We use reduce to build up a query alchemy filter as we loop through the filters.
+        """
+        return reduce(
+            lambda query, f: query.filter(
+                getattr(report_filter_entities[f.get('entity')], f.get('property')) == f.get('value')),
+            filters,
+            cls.query
+        ).all()
+
     def __repr__(self):
         return '<Report %s>' % (self.id)
+
+
+report_filter_entities = {
+    'Report': Report,
+    'Vehicle': Vehicle,
+    'Person': Person
+}
