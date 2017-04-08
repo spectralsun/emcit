@@ -1,13 +1,10 @@
 from datetime import datetime, timedelta
-
 from sqlalchemy import (
     Column, DateTime, Enum, ForeignKey, Integer, String, Table, Text, desc,
     Boolean, PrimaryKeyConstraint, Float
 )
-
 from sqlalchemy.orm import backref, relationship
 from werkzeug.security import check_password_hash, generate_password_hash
-
 from emcit.database import Model
 
 
@@ -24,15 +21,14 @@ class User(Model):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated = Column(DateTime, default=datetime.utcnow)
     name = Column(String(255), nullable=False)
-    organization = Column(String(255), nullable=True)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(Text, nullable=False)
     phone_number = Column(String(20), nullable=True)
     role = Column(Enum('admin', 'analyst', 'reporter', name='user_role'), default='reporter')
 
-    def __init__(self, name, organization, email, password, phone_number, role):
+    def __init__(self, id, name, email, password, phone_number, role):
+        self.id = id
         self.name = name
-        self.organization = organization
         self.email = email.lower()
         self.set_password(password)
         self.phone_number = phone_number
@@ -92,6 +88,21 @@ class User(Model):
     def get_by_email(cls, email):
         """Return user based on email."""
         return cls.query.filter(cls.email == email).first()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.get(id)
+
+    @staticmethod
+    def from_json(json):
+        User(
+            json.get('id'),
+            json.get('name'),
+            json.get('email'),
+            json.get('password'),
+            json.get('phone_number'),
+            json.get('role')
+        )
 
     def __repr__(self):
         """Return <User: %(email)."""
