@@ -7,7 +7,8 @@ import {
     loginError
 } from 'common/actions';
 
-const account = createReducer({
+
+export const account = createReducer({
     [loggingIn]: state => state.merge({ loggingIn: true }),
     [loadedCurrentUser]: (state, user) => state.merge({ logginIn: false, user }),
     [loginError]: (state, loginError) => state.merge({ logginIn: false , loginError })

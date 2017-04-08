@@ -19,4 +19,4 @@ const request_factory = csrfToken => {
     });
 }
 
-export const request = request_factory(document.getElementById('csrf').content);
+export const request = request_factory() //(document.getElementById('csrf').content);
