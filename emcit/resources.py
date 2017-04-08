@@ -12,6 +12,7 @@ def ReportResource(report):
         people=map(PersonResource, report.people)
     )
 
+
 def VehicleResource(vehicle):
     return dict(
         id=vehicle.id,
@@ -22,6 +23,7 @@ def VehicleResource(vehicle):
         model=vehicle.model,
         color=vehicle.color
     )
+
 
 def PersonResource(person):
     return dict(
@@ -40,6 +42,7 @@ def PersonResource(person):
         sex=person.sex
     )
 
+
 def UserAdministrationResource(user):
     return dict(
         id=user.id,
@@ -47,7 +50,18 @@ def UserAdministrationResource(user):
         updated=user.updated,
         name=user.name,
         email=user.email,
-        password=user.password,
+        phone_number=user.phone_number,
+        role=user.role
+    )
+
+
+def AccountResource(user):
+    return dict(
+        id=user.id,
+        created_at=user.created_at,
+        updated=user.updated,
+        name=user.name,
+        email=user.email,
         phone_number=user.phone_number,
         role=user.role
     )
