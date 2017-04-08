@@ -29,7 +29,7 @@ def validate(schema):
         def decorated(*args, **kwargs):
             v = Validator(schema)
             result = v.validate(request.get_json())
-            return f(*args, **kwargs) if result else jsonify(v.errors), 400
+            return f(*args, **kwargs) if result else api_error(v.errors)
 
         return decorated
 

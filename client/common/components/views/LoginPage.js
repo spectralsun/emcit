@@ -50,12 +50,14 @@ class LoginPage extends Component {
                             className='email'
                             type="email"
                             label='Email'
+                            error={loginError.email && loginError.email.join('\r\n')}
                             onChange={email => this.setState({email})} />
                         <Input
                             value={this.state.password}
                             className='password'
                             type="password"
                             label='Password'
+                            error={loginError.password && loginError.password.join('\r\n')}
                             onChange={password => this.setState({password})}/>
                         <Button className='submitButton' type='submit' raised primary>Submit</Button>
                     </form>

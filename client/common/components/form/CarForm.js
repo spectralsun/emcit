@@ -44,18 +44,18 @@ export default class CarForm extends React.Component {
             make: null,
             model: null,
             color: null,
-            plate: '',
+            license_plate: '',
             errors: []
         }
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        const { make, model, color, plate } = this.state;
-        if (!make && !model && !color && !plate) {
+        const { make, model, color, license_plate } = this.state;
+        if (!make && !model && !color && !license_plate) {
             return this.setState({ errors: ['Please select at least a Make, Model, Color or specify License Plate'] })
         }
-        this.props.onSubmit({ make, model, color, plate});
+        this.props.onSubmit({ make, model, color, license_plate, type: 'Vehicle' });
     }
 
     setMake(make) {
@@ -103,11 +103,11 @@ export default class CarForm extends React.Component {
                 <Input
                   type='text'
                   label='License Plate'
-                  name='plate'
-                  value={this.state.plate}
-                  onChange={plate => this.setState({plate})}
+                  name='license_plate'
+                  value={this.state.license_plate}
+                  onChange={license_plate => this.setState({license_plate})}
                 />
-                <Button type='submit' raised primary>Add Car</Button>
+                <Button type='submit' raised primary>Add Vehicle</Button>
             </form>
         )
     }
