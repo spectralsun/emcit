@@ -4,7 +4,7 @@ from flask.ext.login import current_user
 
 from emcit.forms import BaseUserForm, FullUserForm
 from emcit.models import User
-from emcit.resource import UserAdministrationResource
+from emcit.resources import UserAdministrationResource
 from emcit.util import required_access, api_error
 
 
