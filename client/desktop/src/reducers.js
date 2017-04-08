@@ -6,6 +6,6 @@ import { account } from 'common/reducers'
 
 export default combineReducers({
     routing,
-    
+
     account
 });

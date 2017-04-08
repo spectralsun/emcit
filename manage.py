@@ -30,13 +30,13 @@ def seed_db():
     """Seed the database with users."""
     # Seed an admin, analyist, and a reporter
     models.User(
-        'Admin Alice', 'Top Admin', 'alice@example.com', '1234', '5415551234',
+        'Admin Alice', 'alice@example.com', '1234', '5415551234',
         'admin').save()
     models.User(
-        'Analyst Adam', '13th Precinct', 'adam@example.com', '1234', '5415551234',
+        'Analyst Adam', 'adam@example.com', '1234', '5415551234',
         'analyst').save()
     models.User(
-        'Repoter Rob', 'Vigilante', 'rob@example.com', '1234', '5415551234',
+        'Repoter Rob', 'rob@example.com', '1234', '5415551234',
         'reporter').save()
 
 if __name__ == '__main__':

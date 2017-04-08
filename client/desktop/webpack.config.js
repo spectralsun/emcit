@@ -31,12 +31,7 @@ const config = {
             },
             {
                 test: /\.css$/,
-                exclude: /node_modules/,
-                loaders: [
-                    'style-loader',
-                    'css-loader?importLoaders=1',
-                    'postcss-loader'
-                ]
+                loader: __dirname + '/../node_modules/style-loader!'+ __dirname + '/../node_modules/css-loader?localIdentName=[path][name]---[local]---[hash:base64:5]&modules!postcss'
             },
             { test: /\.(png|jpg|jpeg)$/, loader: __dirname + '/node_modules/file-loader' },
             { test: /\.(woff|woff2|eot|ttf|svg)$/, loader: __dirname + '/node_modules/url-loader?limit=100000' },

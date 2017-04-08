@@ -57,9 +57,6 @@ def UserAdministrationResource(user):
 
 def AccountResource(user):
     return dict(
-        id=user.id,
-        created_at=user.created_at,
-        updated=user.updated,
         name=user.name,
         email=user.email,
         phone_number=user.phone_number,
