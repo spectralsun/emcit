@@ -1,11 +1,17 @@
 import React, {Component} from "react";
+import { withRouter } from 'react-router'
+import { connect } from 'react-redux';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
+
+import { FormErrors } from 'common/components/form';
+import { clearLoginErrors } from 'common/actions';
+import { loginUser } from 'common/api';
 
 import classes from './LoginPage.css'
 
 
-export class LoginPage extends Component {
+class LoginPage extends Component {
 
     constructor() {
         super();
@@ -15,25 +21,36 @@ export class LoginPage extends Component {
         };
     }
 
+    componentWillMount() {
+        this.props.clearLoginErrors();
+    }
+
+    componentWillReceiveProps({ user }) {
+        if (user) {
+            this.props.router.push('/')
+        }
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
-    };
-
+        const { email, password } = this.state;
+        this.props.loginUser(email, password)
+    }
 
     render() {
-
+        const { loginError } = this.props;
         return (
             <div className={classes.loginPage}>
                 <div className={classes.loginBox}>
                     <form onSubmit={this.onSubmit.bind(this)} className="loginForm">
                         <h2>Emerald Citizen Login</h2>
+                        <FormErrors errors={loginError.form} />
                         <Input
                             value={this.state.email}
                             className='email'
                             type="email"
                             label='Email'
-                            onChange={email => this.setState({email})}/>
+                            onChange={email => this.setState({email})} />
                         <Input
                             value={this.state.password}
                             className='password'
@@ -48,3 +65,10 @@ export class LoginPage extends Component {
         );
     }
 }
+
+const mapStateToProps = ({ account: { user, loginError }}) => ({ user, loginError });
+
+export default connect(mapStateToProps, {
+    clearLoginErrors,
+    loginUser
+})(withRouter(LoginPage));

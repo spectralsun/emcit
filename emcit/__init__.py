@@ -31,7 +31,8 @@ def load_user(user_id):
 login_manager.init_app(app)
 
 @app.route('/')
-def index():
+@app.route('/<path:path>')
+def index(path=None):
     if urlparse(request.url).hostname[:6] == 'mobile':
         return render_template('mobile.html')
     else:

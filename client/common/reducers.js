@@ -2,18 +2,20 @@ import Immutable from 'seamless-immutable';
 
 import { createReducer } from 'common/util';
 import {
+    clearLoginErrors,
     loggingIn,
     loadedCurrentUser,
-    loginError
+    loginFailed
 } from 'common/actions';
 
 
 export const account = createReducer({
-    [loggingIn]: state => state.merge({ loggingIn: true }),
+    [clearLoginErrors]: state => state.merge({ loginError: {} }),
+    [loggingIn]: state => state.merge({ loggingIn: true, loginError: {} }),
     [loadedCurrentUser]: (state, user) => state.merge({ logginIn: false, user }),
-    [loginError]: (state, loginError) => state.merge({ logginIn: false , loginError })
+    [loginFailed]: (state, loginError) => state.merge({ logginIn: false , loginError })
 }, Immutable({
     user: null,
     loggingIn: false,
-    loginError: null
+    loginError: {}
 }));

@@ -26,8 +26,7 @@ class User(Model):
     phone_number = Column(String(20), nullable=True)
     role = Column(Enum('admin', 'analyst', 'reporter', name='user_role'), default='reporter')
 
-    def __init__(self, id, name, email, password, phone_number, role):
-        self.id = id
+    def __init__(self, name, email, password, phone_number, role):
         self.name = name
         self.email = email.lower()
         self.set_password(password)
@@ -112,7 +111,7 @@ class User(Model):
 class Person(Model):
     """
     Person Model, used in reports to identity suspicious people, victims, and buyers.
-    
+
     Required parameters:
         - type
     """
