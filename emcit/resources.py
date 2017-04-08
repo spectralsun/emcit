@@ -6,8 +6,8 @@ def ReportResource(report):
         date=report.date,
         location=report.location,
         room_number=report.room_number,
-        geoLat=report.geoLat,
-        geoLng=report.geoLng,
+        geo_latitude=report.geo_latitude,
+        geo_longitude=report.geo_longitude,
         vehicles=map(VehicleResource, report.vehicles),
         people=map(PersonResource, report.people)
     )
@@ -32,7 +32,7 @@ def PersonResource(person):
         created_at=person.created_at,
         updated=person.updated,
         name=person.name,
-        type=person.type,
+        category=person.category,
         height=person.height,
         weight=person.weight,
         hair_color=person.hair_color,
