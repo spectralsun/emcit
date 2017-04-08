@@ -1,1 +1,9 @@
 # EmCit
+
+## Create the database
+
+`./manage.py create_db`
+
+## Seed the database
+
+`./manage.py seed_db`
