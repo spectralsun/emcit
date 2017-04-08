@@ -4,3 +4,4 @@
 config.py
 test.db
 client/node_modules
+static
