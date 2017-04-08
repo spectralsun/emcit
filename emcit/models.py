@@ -218,17 +218,17 @@ class Report(Model):
     date = Column(DateTime, default=datetime.utcnow)
     location = Column(String(255), nullable=True)
     room_number = Column(String(255), nullable=True)
-    geoLat = Column(Float, nullable=True)
-    geoLng = Column(Float, nullable=True)
+    geo_latitude = Column(Float, nullable=True)
+    geo_longitude = Column(Float, nullable=True)
     vehicles = relationship("Vehicle", backref="report")
     people = relationship("Person", backref="report")
 
-    def __init__(self, date, location, room_number, geoLat, geoLng, vehicles, people):
+    def __init__(self, date, location, room_number, geo_latitude, geo_longitude, vehicles, people):
         self.date = date
         self.location = location
         self.room_number = room_number
-        self.geoLat = geoLat
-        self.geoLng = geoLng
+        self.geo_latitude = geo_latitude
+        self.geo_longitude = geo_longitude
         self.vehicles = vehicles
         self.people = people
 
@@ -238,8 +238,8 @@ class Report(Model):
             json.get('date'),
             json.get('location'),
             json.get('room_number'),
-            json.get('geoLat'),
-            json.get('geoLng'),
+            json.get('geo_latitude'),
+            json.get('geo_longitude'),
             map(Vehicle.from_json, json.get('vehicles', [])),
             map(Person.from_json, json.get('people', []))
         )

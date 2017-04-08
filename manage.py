@@ -4,8 +4,8 @@ from flask_script import Manager
 from emcit import app, models
 from emcit.database import Model, engine
 
-
 manager = Manager(app)
+
 
 @manager.command
 @manager.option('-n', '--name', help='First and/or Last Name')
@@ -38,6 +38,31 @@ def seed_db():
     models.User(
         'Repoter Rob', 'rob@example.com', '1234', '5415551234',
         'reporter').save()
+
+    for [s, x] in [[str(x), x] for x in range(10)]:
+        models.Report.from_json({
+            "location": "somwhere" + s,
+            "room_number": "156" + s,
+            "geo_latitude": 44.04534 + x,
+            "geo_longitude": -100.432 + x,
+            "people": [{
+                "name": "name" + s,
+                "type": ["victim", "suspicious_person", "buyer"][x % 3],
+                "height": "height" + s,
+                "weight": "weight" + s,
+                "hair_color ": "hair_color" + s,
+                "hair_length": "hair_length" + s,
+                "eye_color": "eye_color" + s,
+                "skin": "skin" + s,
+                "sex": "sex" + s
+            }],
+            "vehicles": [{
+                "make": "subaru" + s,
+                "model": "outback" + s,
+                "color": "white" + s
+            }]
+        }).save()
+
 
 if __name__ == '__main__':
     manager.run()
