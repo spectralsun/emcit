@@ -26,5 +26,11 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.1.2"
+  },
+  "scripts": {
+      "watch-mobile": "node_modules/.bin/webpack -w --config mobile/webpack.config.js",
+      "watch-desktop": "node_modules/.bin/webpack -w --config desktop/webpack.config.js",
+      "buiild-mobile": "node_modules/.bin/webpack --config mobile/webpack.config.js",
+      "buiild-desktop": "node_modules/.bin/webpack --config desktop/webpack.config.js",
   }
 }
