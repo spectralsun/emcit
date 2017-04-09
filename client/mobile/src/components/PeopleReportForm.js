@@ -20,7 +20,7 @@ export class PeopleReportForm extends Component {
     }
 
     updateParent() {
-        this.props.onUpdate(Object.values(this.state))
+        this.props.onUpdate(Object.values(this.state.people))
     }
 
     getTitle({age, sex, name}, id) {
