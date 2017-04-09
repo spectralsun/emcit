@@ -225,8 +225,9 @@ class Report(Model):
     geo_longitude = Column(Float(precision=53), nullable=True)
     vehicles = relationship("Vehicle", backref="report")
     people = relationship("Person", backref="report")
+    details = Column(String(255), nullable=True)
 
-    def __init__(self, date, location, room_number, geo_latitude, geo_longitude, vehicles, people):
+    def __init__(self, date, location, room_number, geo_latitude, geo_longitude, vehicles, people, details):
         self.date = date
         self.location = location
         self.room_number = room_number
@@ -234,17 +235,19 @@ class Report(Model):
         self.geo_longitude = geo_longitude
         self.vehicles = vehicles
         self.people = people
+        self.details = details
 
     @staticmethod
     def from_json(json):
         return Report(
-            json.get('date'),
+            datetime.utcfromtimestamp(json.get('date') / 1000.0),
             json.get('location'),
             json.get('room_number'),
             json.get('geo_latitude'),
             json.get('geo_longitude'),
             map(Vehicle.from_json, json.get('vehicles', [])),
-            map(Person.from_json, json.get('people', []))
+            map(Person.from_json, json.get('people', [])),
+            json.get('details')
         )
 
     @classmethod

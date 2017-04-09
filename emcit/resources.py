@@ -9,7 +9,8 @@ def ReportResource(report):
         lat=report.geo_latitude,
         lng=report.geo_longitude,
         vehicles=map(VehicleResource, report.vehicles),
-        people=map(PersonResource, report.people)
+        people=map(PersonResource, report.people),
+        details=report.details
     )
 
 
