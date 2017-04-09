@@ -6,17 +6,13 @@ import Dropdown from 'react-toolbox/lib/dropdown';
 import Chip from 'react-toolbox/lib/chip';
 
 import CarForm from 'common/components/form/CarForm';
+import { PersonForm } from 'common/components/form/PersonForm';
 import classes from './ReportBuilder.css'
 
 import { getReports } from 'api'
 import { addFilter, removeFilter } from 'actions'
 
 
-const initialFilterData = {
-    car: {
-        make: ''
-    }
-}
 
 function capitalize(str) {
     return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
@@ -50,11 +46,13 @@ class ReportBuilder extends React.Component {
     getReports() {
         this.props.getReports(this.state.filters.map(f => {
             const filter = {entity: f.type, values:{}}
-            const filterSchema = {
-                Vehicle: ({ make, model, color, license_plate }) =>
-                        [make, model, color, license_plate].filter(v => !!v).forEach(v => { filter.values[v] = v })
-            }
-            filterSchema[f.type](f);
+            const filterSchema = data =>
+                Object.keys(data).forEach(key => {
+                    if (data[key] && key !== 'type') {
+                        filter.values[key] = data[key]
+                    }
+                })
+            filterSchema(f);
             return filter;
         }))
     }
@@ -77,15 +75,33 @@ class ReportBuilder extends React.Component {
 
     getChipText(filter) {
         const formatters = {
-            Vehicle: ({ make, model, color, license_plate }) =>
-                [color, make, model].filter(v => !!v).map(capitalize).concat(license_plate ? license_plate.toUpperCase() : []).join(' ')
+            vehicle: ({ make, model, color, license_plate }) =>
+                [color, make, model].filter(v => !!v).map(capitalize).concat(license_plate ? license_plate.toUpperCase() : []).join(' '),
+            person: ({ category, sex, hair_color, eye_color }) => {
+                let cat = category ? category.split('_').map(capitalize).join(' ') + ': ' : null;
+                let hair = hair ? hair_color + ' hair' : ''
+                let eyes = eye_color ? eye_color + ' eyes' : ''
+                return [cat, sex, eyes, hair].filter(v => !!v).map(capitalize).join(' ')
+            }
         }
         return formatters[filter.type](filter);
     }
 
     renderForm() {
+        const forms = {
+            vehicle: (<CarForm onSubmit={this.handleFilterSubmit.bind(this)} />),
+            person: <PersonForm onSubmit={this.handleFilterSubmit.bind(this)} filterForm />
+        }
+        const titles = {
+            vehicle: 'Add Vehicle',
+            person: 'Add Person'
+        }
         return (
-            <CarForm onSubmit={this.handleFilterSubmit.bind(this)} />
+            <div>
+                <Button label='Cancel' accent raised onClick={e => this.setState({ filterForm: null })} />
+                <h3>{titles[this.state.filterForm]}</h3>
+                {forms[this.state.filterForm]}
+            </div>
         )
     }
 
@@ -95,6 +111,9 @@ class ReportBuilder extends React.Component {
         return (
             <div className={classes.reportBuilder}>
                 <div className={classes.chipBar} ref={c => this.chipBar = c}>
+                    {filters.length === 0 &&
+                        <div>No filters selected</div>
+                    }
                     {filters.map((filter, idx) => (
                         <Chip className={classes.chip} deletable onDeleteClick={e => this.handleDeleteFilter(filter)}>
                             {this.getChipText(filter)}
@@ -106,10 +125,14 @@ class ReportBuilder extends React.Component {
                         <div>
                             <h3>Filter Reports</h3>
                             <Button
-                              label='Add Car'
+                              label='Add Vehicle'
                               raised
                               primary
-                              onClick={e => this.setState({ filterForm: 'car' }) } />
+                              onClick={e => this.setState({ filterForm: 'vehicle' }) } />
+                            <Button
+                              label='Add Person'
+                              raised primary
+                              onClick={e => this.setState({ filterForm: 'person' }) } />
                         </div>
                     }
                     { filterForm &&
