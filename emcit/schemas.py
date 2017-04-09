@@ -14,7 +14,8 @@ login_schema = {
 vehicle_schema = {
     'make': {'type': 'string'},
     'model': {'type': 'string'},
-    'color': {'type': 'string'}
+    'color': {'type': 'string'},
+    'license_plate': {'type': 'string'}
 }
 
 person_schema = {

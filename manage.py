@@ -59,7 +59,8 @@ def seed_db():
             "vehicles": [{
                 "make": "subaru" + s,
                 "model": "outback" + s,
-                "color": "white" + s
+                "color": "white" + s,
+                "license_plate": "license_plate" + s
             }]
         }).save()
 

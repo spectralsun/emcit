@@ -186,6 +186,7 @@ class Vehicle(Model):
     make = Column(String(50), nullable=True)
     model = Column(String(50), nullable=True)
     color = Column(String(50), nullable=True)
+    license_plate = Column(String(50), nullable=True)
 
     @staticmethod
     def from_json(json):
@@ -193,14 +194,16 @@ class Vehicle(Model):
             json.get('report_id'),
             json.get('make'),
             json.get('model'),
-            json.get('color')
+            json.get('color'),
+            json.get('license_plate')
         )
 
-    def __init__(self, report_id, make, model, color):
+    def __init__(self, report_id, make, model, color, license_plate):
         self.report_id = report_id
         self.make = make
         self.model = model
         self.color = color
+        self.license_plate = license_plate
 
     def __repr__(self):
         return '<Vehicle %s>' % (self.id)

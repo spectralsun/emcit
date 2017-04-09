@@ -21,7 +21,8 @@ def VehicleResource(vehicle):
         updated=vehicle.updated,
         make=vehicle.make,
         model=vehicle.model,
-        color=vehicle.color
+        color=vehicle.color,
+        license_plate=vehicle.license_plate
     )
 
 
