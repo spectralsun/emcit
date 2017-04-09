@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Chrome from 'c/chrome';
-import Splash from 'c/splash';
+import {ReportContainer} from "../components/ReportContainer";
 
 
 const catchAll = { path: '*', onEnter: ({params}, replace) => replace('/desktop') }
 
 const routes = [
-    { path: '/', component: Splash },
-    { path: '/desktop', component: Splash },
+    { path: '/', component: ReportContainer },
     //{ path: '/login', component: Login },
     catchAll
 ];
