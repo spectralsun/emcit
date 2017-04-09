@@ -26,7 +26,7 @@ const config = {
                 exclude: /node_modules/,
                 loader: __dirname + '/../node_modules/babel-loader',
                 query: {
-                    presets: ['react', 'es2015']
+                    presets: ['react', 'latest']
                 }
             },
             {

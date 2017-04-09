@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import Immutable from 'seamless-immutable'
+import './main.css';
 
 import configureRoutes from './routes'
 import configureStore from './store'

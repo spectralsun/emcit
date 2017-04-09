@@ -50,6 +50,7 @@ export default class CarForm extends React.Component {
     }
 
     handleSubmit(e) {
+        e.stopPropagation();
         e.preventDefault();
         const { make, model, color, license_plate } = this.state;
         if (!make && !model && !color && !license_plate) {
