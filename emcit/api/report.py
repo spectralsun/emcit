@@ -1,4 +1,5 @@
 from flask import request, jsonify, Blueprint
+from flask_login import current_user
 
 from emcit.models import Report
 from emcit.resources import ReportResource
@@ -21,6 +22,7 @@ def create_report():
     json = request.get_json()
 
     report = Report.from_json(json)
+    report.user_id = current_user.id
     report.save()
 
     return jsonify(ReportResource(report))
