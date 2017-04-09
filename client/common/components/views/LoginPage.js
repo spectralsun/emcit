@@ -43,7 +43,9 @@ class LoginPage extends Component {
             <div className={classes.loginPage}>
                 <div className={classes.loginBox}>
                     <form onSubmit={this.onSubmit.bind(this)} className="loginForm">
-                        <h2>Emerald Citizen Login</h2>
+                        <div style={{textAlign: 'center', margin: '40px auto'}}>
+                            <img src="/static/EmeraldCitizen.svg" alt="Emerald Citizen logo" height={180} width='auto'/>
+                        </div>
                         <FormErrors errors={loginError.form} />
                         <Input
                             value={this.state.email}
@@ -59,7 +61,7 @@ class LoginPage extends Component {
                             label='Password'
                             error={loginError.password && loginError.password.join('\r\n')}
                             onChange={password => this.setState({password})}/>
-                        <Button className='submitButton' type='submit' raised primary>Submit</Button>
+                        <Button className='submitButton' type='submit' raised primary>Login</Button>
                     </form>
 
                 </div>
