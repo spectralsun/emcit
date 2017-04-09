@@ -31,14 +31,17 @@ person_schema = {
 }
 
 base_report_schema = {
-    'date': {'type': 'string'},
+    'date': {'type': 'number'},
     'location': {'type': 'string'},
     'room_number': {'type': 'string'},
     'geo_latitude': {'type': 'float'},
     'geo_longitude': {'type': 'float'},
+    'details': {'type': 'string'}
 }
 
-report_schema = base_report_schema.update({
+report_schema = dict()
+report_schema.update(base_report_schema)
+report_schema.update({
     'vehicles': {
         'type': 'list',
         'schema': vehicle_schema

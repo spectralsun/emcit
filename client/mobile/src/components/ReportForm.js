@@ -15,14 +15,12 @@ export class ReportForm extends Component {
     constructor() {
         super();
         this.state = {
-            details: '',
             date: new Date(),
-            vehicles: [{}],
-            people: [{}],
+            details: '',
+            vehicles: [],
+            people: [],
             location: '',
-            room_number: '',
-            geo_latitude: '',
-            geo_longitude: '',
+            room_number: ''
         };
     }
 
@@ -78,7 +76,7 @@ export class ReportForm extends Component {
 
                     <PeopleReportForm onUpdate={people => {this.setState({people})}} />
 
-                    <VehiclesReportForm onUpdate={vehicle => {this.setState({vehicles: [vehicle]})}} />
+                    <VehiclesReportForm onUpdate={vehicles => {this.setState({vehicles})}} />
 
                     <Button type='submit' label='Submit' className={classes.submitButton} raised primary/>
 

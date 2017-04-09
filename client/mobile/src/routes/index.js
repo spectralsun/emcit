@@ -1,15 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Chrome from 'c/chrome';
-import {ReportContainer} from "../components/ReportContainer";
+import LoginPage from 'common/components/views/LoginPage';
+import ReportContainer from "../components/ReportContainer";
 
-
-const catchAll = { path: '*', onEnter: ({params}, replace) => replace('/desktop') }
+const catchAll = {path: '*', onEnter: ({params}, replace) => replace('/desktop')}
 
 const routes = [
-    { path: '/', component: ReportContainer },
-    //{ path: '/login', component: Login },
+    {path: '/', component: ReportContainer},
+    { path: '/login', component: LoginPage },
     catchAll
 ];
 
