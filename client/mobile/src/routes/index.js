@@ -6,9 +6,10 @@ import ReportContainer from "../components/ReportContainer";
 
 const catchAll = {path: '*', onEnter: ({params}, replace) => replace('/desktop')}
 
+const loginRoute = { path: '*', component: LoginPage };
 const routes = [
     {path: '/', component: ReportContainer},
-    { path: '/login', component: LoginPage },
+    loginRoute,
     catchAll
 ];
 
@@ -16,7 +17,21 @@ export default function configureRoutes(store) {
     return {
         component: Chrome,
         getChildRoutes(partialNextState, cb) {
-            cb(null, routes);
+            const {user} = store.getState().account;
+
+            if (user) {
+                cb(null, routes);
+            } else {
+                cb(null, loginRoute);
+
+                const unsubscribe = store.subscribe(() => {
+                    const { user } = store.getState().account;
+                    if (user)  {
+                        unsubscribe();
+                        cb(null, routes);
+                    }
+                });
+            }
         }
     }
 }
