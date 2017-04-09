@@ -1,8 +1,9 @@
 user_schema = {
+    'id': {'type': 'number'},
     'name': {'type': 'string', 'required': True},
     'email': {'type': 'string', 'required': True},
-    'password': {'type': 'string', 'required': True},
-    'phone_number': {'type': 'string', 'required': True},
+    'password': {'type': 'string'},
+    'phone_number': {'type': 'string'},
     'role': {'type': 'string', 'required': True}
 }
 

@@ -94,7 +94,7 @@ class User(Model):
 
     @staticmethod
     def from_json(json):
-        User(
+        return User(
             json.get('name'),
             json.get('email'),
             json.get('password'),
