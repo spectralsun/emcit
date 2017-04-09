@@ -5,6 +5,7 @@ import Chrome from 'c/chrome';
 import Splash from 'c/splash';
 import LoginPage from 'common/components/views/LoginPage'
 import ReportTablePage from 'c/views/analyze/ReportTablePage'
+import ReportMapPage from 'c/views/analyze/ReportMapPage'
 import ReportBuilder from 'c/chrome/ReportBuilder'
 import UserListPage from 'c/views/admin/UserListPage'
 import { CreateUserPage, UpdateUserPage } from 'c/views/admin/UserFormPage'
@@ -12,6 +13,7 @@ import { CreateUserPage, UpdateUserPage } from 'c/views/admin/UserFormPage'
 
 const catchAllAnon = { path: '*', onEnter: ({params}, replace) => replace('/login') }
 const catchAllUser = { path: '*', onEnter: ({params}, replace) => replace('/') }
+const catchAllAnalyst = { path: '*', onEnter: ({params}, replace) => replace('/reports/table') }
 
 const externalRoutes = [
     { path: '/login', component: LoginPage },
@@ -29,13 +31,12 @@ const adminRoutes = [
 const reportRoutes = {
     component: ReportBuilder,
     childRoutes: [
-        { path: '/reports', component: ReportTablePage }
+        { path: '/reports/table', component: ReportTablePage },
+        { path: '/reports/map', component: ReportMapPage }
     ]
 }
 
 const analystRoutes = [
-    { path: '/', component: Splash },
-    //{ path: '/reports', component: ReportTablePage },
     reportRoutes,
     catchAllUser
 ]

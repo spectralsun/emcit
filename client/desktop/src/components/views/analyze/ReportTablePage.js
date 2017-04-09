@@ -62,5 +62,4 @@ class ReportTablePage extends React.Component {
 const mapStateToProps = ({ reports: { list } }) => ({ list });
 
 export default connect(mapStateToProps, {
-    getReports
 })(ReportTablePage);

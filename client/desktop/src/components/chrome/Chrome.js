@@ -13,6 +13,18 @@ class Chrome extends React.Component {
         return (
             <div>
                 <AppBar title="Emcit Desktop" fixed>
+                    <Navigation type="horizontal" className={classes.centerNav}>
+                        {user &&
+                            <div data-react-toolbox="link">
+                                <Link to="/reports/table">Table</Link>
+                            </div>
+                        }
+                        {user &&
+                            <div data-react-toolbox="link">
+                                <Link to="/reports/map">Map</Link>
+                            </div>
+                        }
+                    </Navigation>
                     <Navigation type="horizontal">
                         {user && <div data-react-toolbox="link">{user.name}</div>}
                         {user && <div data-react-toolbox="link"><Link to="/users/new">New User</Link></div>}

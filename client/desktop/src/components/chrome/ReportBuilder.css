@@ -2,10 +2,23 @@
     .chipBar {
         position: absolute;
         top: 0;
-        min-height: 40px;
+        min-height: 42px;
         left: 200px;
         right: 0;
         background: lightblue;
+        border-right: 3px solid #444;
+        z-index: 10000;
+        padding: 0 4px;
+
+        &.empty {
+            text-align: center;
+        }
+    }
+
+    .title {
+        font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+        text-align: center;
+        font-size: 23px;
     }
 
     .filters {
@@ -16,6 +29,8 @@
         width: 200px;
         background: rgba(0,0,0,.05);
         overflow: auto;
+        border-right: 3px solid #444;
+        z-index: 10000;
     }
 
     .reportView {
@@ -28,6 +43,9 @@
     }
 
     .chip {
+        border: 1px solid #000;
+        color: #000;
+        margin-top: 4px;
 
         > span:nth-child(2) {
             position: absolute;
