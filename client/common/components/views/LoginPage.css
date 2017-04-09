@@ -11,6 +11,19 @@
             float: right;
         }
     }
+
+    .logo {
+
+        position: relative;
+        text-align: center;
+        margin: 40px auto;
+
+        img {
+
+            width: 95%;
+            max-width: 350px;
+        }
+    }
 }
 
 

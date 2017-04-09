@@ -43,8 +43,8 @@ class LoginPage extends Component {
             <div className={classes.loginPage}>
                 <div className={classes.loginBox}>
                     <form onSubmit={this.onSubmit.bind(this)} className="loginForm">
-                        <div style={{textAlign: 'center', margin: '40px auto'}}>
-                            <img src="/static/EmeraldCitizen.svg" alt="Emerald Citizen logo" height={180} width='auto'/>
+                        <div className={classes.logo}>
+                            <img src="/static/EmeraldCitizen.svg" alt="Emerald Citizen logo"/>
                         </div>
                         <FormErrors errors={loginError.form} />
                         <Input
