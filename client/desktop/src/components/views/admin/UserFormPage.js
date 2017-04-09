@@ -57,8 +57,9 @@ class UserFormPage extends React.Component {
     }
 
     render() {
+        const style = {padding: 40}
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} style={style}>
                 <FormErrors errors={this.state.errors} />
                 <Input
                     type='text'

@@ -99,7 +99,7 @@ class ReportBuilder extends React.Component {
             person: 'Add Person'
         }
         return (
-            <div>
+            <div className={classes.filterForm}>
                 <Button label='Cancel' accent raised onClick={e => this.setState({ filterForm: null })} />
                 <h3 className={classes.title}>{titles[this.state.filterForm]} Filter</h3>
                 {forms[this.state.filterForm]}
