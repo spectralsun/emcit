@@ -7,7 +7,6 @@ import {hairColorOptions, eyeColorOptions} from './PersonOptions'
 export class PersonForm extends Component {
 
     constructor(props) {
-        console.log(props)
         super(props);
         this.state = {
             name: '',

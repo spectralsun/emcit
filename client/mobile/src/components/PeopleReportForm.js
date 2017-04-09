@@ -60,9 +60,6 @@ export class PeopleReportForm extends Component {
         const {currentPersonId} = this.state;
         const currentPerson = currentPersonId && this.state.people[currentPersonId];
 
-
-        currentPerson && console.log(currentPerson);
-
         return currentPerson &&
             <div className={classes.personReport}>
                 <PersonForm
