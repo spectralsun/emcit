@@ -7,7 +7,8 @@ from flask_login import (
 from emcit.api import (
     account_api,
     user_api,
-    report_api
+    report_api,
+    analytics_api
 )
 from emcit.models import User
 from emcit.resources import AccountResource
@@ -24,6 +25,7 @@ app.secret_key = app.config['SECRET_KEY']
 app.register_blueprint(account_api, url_prefix='/api/v1/account')
 app.register_blueprint(user_api, url_prefix='/api/v1/user')
 app.register_blueprint(report_api, url_prefix='/api/v1/report')
+app.register_blueprint(analytics_api, url_prefix='/api/v1/analytics')
 
 login_manager = LoginManager()
 

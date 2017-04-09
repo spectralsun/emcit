@@ -30,12 +30,15 @@ person_schema = {
     'sex': {'type': 'string'}
 }
 
-report_schema = {
+base_report_schema = {
     'date': {'type': 'string'},
     'location': {'type': 'string'},
     'room_number': {'type': 'string'},
     'geo_latitude': {'type': 'float'},
     'geo_longitude': {'type': 'float'},
+}
+
+report_schema = base_report_schema.update({
     'vehicles': {
         'type': 'list',
         'schema': vehicle_schema
@@ -44,15 +47,21 @@ report_schema = {
         'type': 'list',
         'schema': person_schema
     }
+})
+
+filter_report_schema = {
+    'entity': {'type': 'string', 'allowed': ['report']},
+    'values': {'type': 'dict', 'schema': base_report_schema}
 }
 
-filter_schema = {
-    'entity': {'type': 'string', 'allowed': ['Report', 'Vehicle', 'Person']},
-    'property': {'type': 'string'},
-    'value': {'type': 'string', 'anyof_type': ['string', 'integer', 'float', 'boolean']}
+filter_vehicle_schema = {
+    'entity': {'type': 'string', 'allowed': ['vehicle']}
 }
 
 filters_schema = {
     'type': 'list',
-    'schema': filter_schema
+    'schema': {
+        'entity': {'type': 'string', 'allowed': ['report', 'vehicle', 'person']},
+        'values': {'type': 'dict', 'oneof_schema': [base_report_schema, vehicle_schema, person_schema]}
+    }
 }
