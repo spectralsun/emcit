@@ -30,13 +30,17 @@ class UserFormPage extends React.Component {
         this.setRole = this.setField('role');
         this.handleSubmit = (e) => {
             e.preventDefault();
-            (this.isNewUser() ? this.props.createUser(this.state) : this.props.updateUser(this.getId(), this.state)).then(() => browserHistory.push('/users'));
+            const { createUser, updateUser, id } = this.props;
+
+            (this.isNewUser() ? createUser(this.state) : updateUser(id, this.state)).then(() => browserHistory.push('/users'));
         }
     }
 
     componentDidMount() {
         if (!this.isNewUser()) {
-            this.props.getUser(this.getId())
+            const { id, getUser } = this.props;
+
+            getUser(id);
         }
     }
 
@@ -48,14 +52,8 @@ class UserFormPage extends React.Component {
         }
     }
 
-    getId() {
-        return this.props.id;
-    }
-
     isNewUser() {
-        const id = this.getId();
-
-        return id === 'new';
+        return this.props.id === null;
     }
 
     render() {
@@ -106,7 +104,7 @@ class UserFormPage extends React.Component {
 }
 
 export const CreateUserPage = connect(
-    () => ({ id: 'new' }),
+    () => ({ id: null }),
     { getUser, createUser, updateUser }
 )(UserFormPage);
 

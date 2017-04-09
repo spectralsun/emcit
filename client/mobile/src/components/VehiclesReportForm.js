@@ -59,9 +59,6 @@ export class VehiclesReportForm extends Component {
         const {currentVehicleId} = this.state;
         const currentVehicle = currentVehicleId && this.state.vehicles[currentVehicleId];
 
-
-        currentVehicle && console.log(currentVehicle);
-
         return currentVehicle &&
             <div className={classes.vehicleReport}>
                 <div className={classes.vehicleReportInner}>

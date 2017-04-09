@@ -12,7 +12,7 @@ import { CreateUserPage, UpdateUserPage } from 'c/views/admin/UserFormPage'
 
 
 const catchAllAnon = { path: '*', onEnter: ({params}, replace) => replace('/login') }
-const catchAllUser = { path: '*', onEnter: ({params}, replace) => replace('/') }
+const catchAllUser = { path: '*', onEnter: ({params}, replace) => replace('/users') }
 const catchAllAnalyst = { path: '*', onEnter: ({params}, replace) => replace('/reports/table') }
 
 const externalRoutes = [
@@ -21,7 +21,7 @@ const externalRoutes = [
 ]
 
 const adminRoutes = [
-    { path: '/', component: Splash },
+    //{ path: '/', component: Splash },
     { path: '/users', component: UserListPage },
     { path: '/users/new', component: CreateUserPage },
     { path: '/users/:id', component: UpdateUserPage },

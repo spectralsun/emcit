@@ -226,8 +226,10 @@ class Report(Model):
     vehicles = relationship("Vehicle", backref="report")
     people = relationship("Person", backref="report")
     details = Column(String(255), nullable=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship("User", backref="reports")
 
-    def __init__(self, date, location, room_number, geo_latitude, geo_longitude, vehicles, people, details):
+    def __init__(self, date, location, room_number, geo_latitude, geo_longitude, vehicles, people, details, user_id):
         self.date = date
         self.location = location
         self.room_number = room_number
@@ -236,6 +238,7 @@ class Report(Model):
         self.vehicles = vehicles
         self.people = people
         self.details = details
+        self.user_id = user_id
 
     @staticmethod
     def from_json(json):
@@ -247,7 +250,8 @@ class Report(Model):
             json.get('geo_longitude'),
             map(Vehicle.from_json, json.get('vehicles', [])),
             map(Person.from_json, json.get('people', [])),
-            json.get('details')
+            json.get('details'),
+            json.get('user_id')
         )
 
     @classmethod
