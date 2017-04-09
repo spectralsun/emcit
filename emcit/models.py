@@ -254,6 +254,9 @@ class Report(Model):
 
     @classmethod
     def filter(cls, filters):
+        if filters is None or len(filters) == 0:
+            return cls.query.all()
+
         result = []
 
         for f in filters:
@@ -266,7 +269,6 @@ class Report(Model):
             for key, value in f.get('values').items():
                 query = query.filter(getattr(entity, key) == value)
 
-            print(query)
             result += query.all()
 
         return result
