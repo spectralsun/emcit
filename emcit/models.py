@@ -112,7 +112,7 @@ class Person(Model):
     Person Model, used in reports to identity suspicious people, victims, and buyers.
 
     Required parameters:
-        - type
+        - category
     """
 
     __tablename__ = 'person'
@@ -121,7 +121,7 @@ class Person(Model):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated = Column(DateTime, default=datetime.utcnow)
     name = Column(String(255), nullable=True)
-    type = Column(Enum('suspicious_person', 'victim', 'buyer', name='person_type'), default=None, nullable=False)
+    category = Column(Enum('suspicious_person', 'victim', 'buyer', name='person_type'), default=None, nullable=False)
     height = Column(String(255), nullable=True)
     weight = Column(String(255), nullable=True)
     hair_color = Column(String(255), nullable=True)
@@ -130,10 +130,10 @@ class Person(Model):
     skin = Column(String(255), nullable=True)
     sex = Column(String(255), nullable=True)
 
-    def __init__(self, report_id, name, type, height, weight, hair_color, hair_length, eye_color, skin, sex):
+    def __init__(self, report_id, name, category, height, weight, hair_color, hair_length, eye_color, skin, sex):
         self.report_id = report_id
         self.name = name
-        self.type = type
+        self.category = category
         self.height = height
         self.weight = weight
         self.hair_color = hair_color
@@ -144,22 +144,22 @@ class Person(Model):
 
     @property
     def is_suspicious(self):
-        return self.type == 'suspicious_person'
+        return self.category == 'suspicious_person'
 
     @property
     def is_victim(self):
-        return self.type == 'victim'
+        return self.category == 'victim'
 
     @property
     def is_buyer(self):
-        return self.type == 'buyer'
+        return self.category == 'buyer'
 
     @staticmethod
     def from_json(json):
         return Person(
             json.get('report_id'),
             json.get('name'),
-            json.get('type'),
+            json.get('category'),
             json.get('height'),
             json.get('weight'),
             json.get('hair_color'),
@@ -186,6 +186,7 @@ class Vehicle(Model):
     make = Column(String(50), nullable=True)
     model = Column(String(50), nullable=True)
     color = Column(String(50), nullable=True)
+    license_plate = Column(String(50), nullable=True)
 
     @staticmethod
     def from_json(json):
@@ -193,14 +194,16 @@ class Vehicle(Model):
             json.get('report_id'),
             json.get('make'),
             json.get('model'),
-            json.get('color')
+            json.get('color'),
+            json.get('license_plate')
         )
 
-    def __init__(self, report_id, make, model, color):
+    def __init__(self, report_id, make, model, color, license_plate):
         self.report_id = report_id
         self.make = make
         self.model = model
         self.color = color
+        self.license_plate = license_plate
 
     def __repr__(self):
         return '<Vehicle %s>' % (self.id)
@@ -218,8 +221,8 @@ class Report(Model):
     date = Column(DateTime, default=datetime.utcnow)
     location = Column(String(255), nullable=True)
     room_number = Column(String(255), nullable=True)
-    geo_latitude = Column(Float, nullable=True)
-    geo_longitude = Column(Float, nullable=True)
+    geo_latitude = Column(Float(precision=53), nullable=True)
+    geo_longitude = Column(Float(precision=53), nullable=True)
     vehicles = relationship("Vehicle", backref="report")
     people = relationship("Person", backref="report")
 

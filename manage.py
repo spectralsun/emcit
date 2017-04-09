@@ -41,13 +41,13 @@ def seed_db():
 
     for [s, x] in [[str(x), x] for x in range(10)]:
         models.Report.from_json({
-            "location": "somwhere" + s,
+            "location": "somewhere" + s,
             "room_number": "156" + s,
             "geo_latitude": 44.04534 + x,
             "geo_longitude": -100.432 + x,
             "people": [{
                 "name": "name" + s,
-                "type": ["victim", "suspicious_person", "buyer"][x % 3],
+                "category": ["victim", "suspicious_person", "buyer"][x % 3],
                 "height": "height" + s,
                 "weight": "weight" + s,
                 "hair_color ": "hair_color" + s,
@@ -59,7 +59,8 @@ def seed_db():
             "vehicles": [{
                 "make": "subaru" + s,
                 "model": "outback" + s,
-                "color": "white" + s
+                "color": "white" + s,
+                "license_plate": "license_plate" + s
             }]
         }).save()
 

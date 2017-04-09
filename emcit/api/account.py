@@ -3,10 +3,11 @@ from flask import Blueprint, request, jsonify
 from flask_login import (
     login_user, logout_user, login_required, current_user
 )
-from emcit.models import User
-from emcit.util import api_error
-from emcit.resources import AccountResource
 
+from emcit.models import User
+from emcit.util import api_error, validate
+from emcit.resources import AccountResource
+from emcit.schemas import login_schema
 
 account_api = Blueprint('account_api', __name__)
 
@@ -22,13 +23,8 @@ def get_current_user():
 
 
 @account_api.route('/login', methods=['POST'])
+@validate(login_schema)
 def login():
-    """
-    # TODO: issue API key here instead of cookie
-    form = LoginForm(request.json_multidict)
-    if not form.validate_on_submit():
-        return api_error(form.errors)
-    """
     json = request.get_json()
 
     if 'email' in json:
@@ -40,9 +36,9 @@ def login():
 
     return api_error(dict(form=['Invalid username/password.']))
 
+
 @account_api.route('/logout', methods=['POST'])
 @login_required
 def logout():
-    # TODO: de-auth API key
     logout_user()
     return '', 200
