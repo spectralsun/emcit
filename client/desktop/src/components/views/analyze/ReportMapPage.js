@@ -8,6 +8,11 @@ import classes from './ReportMapPage.css'
 const lngs = []
 window.lats = lats;
 window.lngs = lngs;*/
+
+function capitalize(str) {
+    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+}
+
 class ReportMapPage extends React.Component {
 
     constructor(props) {
@@ -33,6 +38,22 @@ class ReportMapPage extends React.Component {
         this.renderMarkers(nextProps.list)
     }
 
+    renderVehicle(vehicle) {
+        return capitalize(vehicle.color) + ' ' + capitalize(vehicle.make) + ' ' + capitalize(vehicle.model);
+    }
+
+    renderPerson({ sex, eye_color, hair_length, hair_color, weight }) {
+        const getEyes = () => eye_color ? eye_color.replace('_',' ') + ' eyes' : '';
+        const getHair = () => {
+            const color = hair_color ? hair_color.replace('_',' ') : null;
+            const vals = [hair_length, color].filter(v => !!v);
+            if (vals.length > 0)
+                return vals.join(' ') + ' hair'
+            return ''
+        }
+        return capitalize(sex) + ' with ' + getEyes() + getHair() + ' weighing ' + weight + 'lbs'
+    }
+
     renderMarkers(list) {
         this.markers.map(marker => this.map.removeLayer(marker));
         this.markers = []
@@ -40,9 +61,13 @@ class ReportMapPage extends React.Component {
             if (!report.lat || !report.lng) {
                 return;
             }
+            let popup = [report.date, report.location]
+                .concat(report.vehicles.map(this.renderVehicle))
+                .concat(report.people.map(this.renderPerson))
+                .join('<br/>')
             const marker = L.marker([report.lat, report.lng]);
                 marker.addTo(this.map)
-                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                .bindPopup(popup);
             this.markers.push(marker)
         });
     }
