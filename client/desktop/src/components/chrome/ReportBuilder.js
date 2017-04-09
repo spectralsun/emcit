@@ -17,6 +17,7 @@ import { addFilter, removeFilter } from 'actions'
 function capitalize(str) {
     return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 }
+const CHIP_BAR_HEIGHT = 42;
 
 class ReportBuilder extends React.Component {
 
@@ -35,10 +36,10 @@ class ReportBuilder extends React.Component {
 
     componentDidUpdate() {
         const node = findDOMNode(this.chipBar)
-        const offsetView = node.clientHeight - 40
-        if (node.clientHeight > 40 && this.state.offsetView !== offsetView) {
+        const offsetView = node.clientHeight - CHIP_BAR_HEIGHT
+        if (node.clientHeight > CHIP_BAR_HEIGHT && this.state.offsetView !== offsetView) {
             this.setState({ offsetView })
-        } else if (node.clientHeight === 40 && this.state.offsetView !== 0) {
+        } else if (node.clientHeight === CHIP_BAR_HEIGHT && this.state.offsetView !== 0) {
             this.setState({ offsetView: 0 })
         }
     }
@@ -99,7 +100,7 @@ class ReportBuilder extends React.Component {
         return (
             <div>
                 <Button label='Cancel' accent raised onClick={e => this.setState({ filterForm: null })} />
-                <h3>{titles[this.state.filterForm]}</h3>
+                <h3 className={classes.title}>{titles[this.state.filterForm]}</h3>
                 {forms[this.state.filterForm]}
             </div>
         )
@@ -123,7 +124,7 @@ class ReportBuilder extends React.Component {
                 <div className={classes.filters}>
                     { !filterForm &&
                         <div>
-                            <h3>Filter Reports</h3>
+                            <h3 className={classes.title}>Filter Reports</h3>
                             <Button
                               label='Add Vehicle'
                               raised
