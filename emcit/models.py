@@ -254,23 +254,31 @@ class Report(Model):
 
     @classmethod
     def filter(cls, filters):
-        """
-        This takes a list of filter dicts that correspond to the values in a SQLAlchemy filter.
-        We use reduce to build up a query alchemy filter as we loop through the filters.
-        """
-        return reduce(
-            lambda query, f: query.filter(
-                getattr(report_filter_entities[f.get('entity')], f.get('property')) == f.get('value')),
-            filters,
-            cls.query
-        ).all()
+        if filters is None or len(filters) == 0:
+            return cls.query.all()
+
+        result = []
+
+        for f in filters:
+            query = cls.query
+            entity = report_filter_entities[f.get('entity')]
+
+            if entity != Report:
+                query = query.join(entity)
+
+            for key, value in f.get('values').items():
+                query = query.filter(getattr(entity, key) == value)
+
+            result += query.all()
+
+        return result
 
     def __repr__(self):
         return '<Report %s>' % (self.id)
 
 
 report_filter_entities = {
-    'Report': Report,
-    'Vehicle': Vehicle,
-    'Person': Person
+    'report': Report,
+    'vehicle': Vehicle,
+    'person': Person
 }

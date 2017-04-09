@@ -9,6 +9,6 @@ analytics_api = Blueprint('analytics_api', __name__)
 
 @analytics_api.route('', methods=['POST'])
 @required_access('admin', 'analyst')
-@validate(filters_schema)
+#@validate(filters_schema)
 def create_report():
     return jsonify(map(ReportResource, Report.filter(request.get_json())))
