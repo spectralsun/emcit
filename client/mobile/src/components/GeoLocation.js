@@ -59,9 +59,7 @@ class GeoLocation extends React.Component {
             </div>)
 
         return (
-            <div className='page-wrapper'>
-                <div className='container'>
-                </div>
+            <div className='page-wrapper' style={{marginTop: 40}}>
                 <div className='container'>
                     <PlacesAutocomplete
                         value={this.state.address}
