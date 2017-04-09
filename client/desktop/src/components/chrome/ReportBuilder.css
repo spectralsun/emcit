@@ -70,4 +70,8 @@
             stroke-width: 4px;
         }
     }
+
+    .filterForm {
+        padding-top: 10px
+    }
 }

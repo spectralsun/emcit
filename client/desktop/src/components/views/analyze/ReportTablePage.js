@@ -11,6 +11,10 @@ const ReportModel = {
     room_number: { type: String }
 }
 
+function capitalize(str) {
+    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+}
+
 class ReportTablePage extends React.Component {
 
     componentWillMount() {
@@ -19,7 +23,7 @@ class ReportTablePage extends React.Component {
     renderVehicle(vehicle) {
         return (
             <div>
-                <div>{vehicle.color} {vehicle.make} {vehicle.model}</div>
+                <div>{capitalize(vehicle.color)} {capitalize(vehicle.make)} {capitalize(vehicle.model)}</div>
             </div>
         )
     }
