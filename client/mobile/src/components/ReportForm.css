@@ -6,7 +6,7 @@
 
     .details textarea{
         border-right: 1px solid rgba(0, 0, 0, 0.12);
-        padding: 5px;
+        padding-right: 5px;
     }
 
     textarea {
@@ -14,7 +14,7 @@
         min-height: 120px;
     }
 
-    button {
+    .submitButton {
         float: right;
     }
 }

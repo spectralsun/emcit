@@ -4,6 +4,8 @@ import DatePicker from 'react-toolbox/lib/date_picker';
 import TimePicker from 'react-toolbox/lib/time_picker';
 import Button from 'react-toolbox/lib/button';
 import GeoLocation from "./GeoLocation";
+import {VehiclesReportForm} from "./VehiclesReportForm";
+import {PeopleReportForm} from "./PeopleReportForm";
 
 
 import classes from './ReportForm.css'
@@ -15,8 +17,8 @@ export class ReportForm extends Component {
         this.state = {
             details: '',
             date: new Date(),
-            vehicles: [],
-            people: [],
+            vehicles: [{}],
+            people: [{}],
             location: '',
             room_number: '',
             geo_latitude: '',
@@ -33,7 +35,7 @@ export class ReportForm extends Component {
         return (
             <div className={classes.reportContainer}>
                 <form onSubmit={this.onSubmit.bind(this)}>
-                    <h3>Incident Report</h3>
+                    <h1>Incident Report</h1>
 
                     <Input
                         id='incidentDetails'
@@ -74,7 +76,11 @@ export class ReportForm extends Component {
                     />
 
 
-                    <Button type='submit' label='Submit' raised primary/>
+                    <PeopleReportForm onUpdate={people => {this.setState({people})}} />
+
+                    <VehiclesReportForm onUpdate={vehicle => {this.setState({vehicles: [vehicle]})}} />
+
+                    <Button type='submit' label='Submit' className={classes.submitButton} raised primary/>
 
                 </form>
             </div>

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.16.0",
+    "lodash": "^4.17.4",
     "react": "^15.5.3",
     "react-dom": "^15.5.3",
     "react-places-autocomplete": "^4.1.3",
