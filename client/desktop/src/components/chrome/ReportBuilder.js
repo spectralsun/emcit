@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {Button} from 'react-toolbox/lib/button';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import Chip from 'react-toolbox/lib/chip';
+import cx from 'classnames'
 
 import CarForm from 'common/components/form/CarForm';
 import { PersonForm } from 'common/components/form/PersonForm';
@@ -100,7 +101,7 @@ class ReportBuilder extends React.Component {
         return (
             <div>
                 <Button label='Cancel' accent raised onClick={e => this.setState({ filterForm: null })} />
-                <h3 className={classes.title}>{titles[this.state.filterForm]}</h3>
+                <h3 className={classes.title}>{titles[this.state.filterForm]} Filter</h3>
                 {forms[this.state.filterForm]}
             </div>
         )
@@ -109,11 +110,12 @@ class ReportBuilder extends React.Component {
     render() {
         const { filterForm, filters } = this.state;
         const viewStyle = { marginTop: this.state.offsetView }
+        const chipBarClass = cx(classes.chipBar, {[classes.emptyChipBar]: filters.length === 0})
         return (
             <div className={classes.reportBuilder}>
-                <div className={classes.chipBar} ref={c => this.chipBar = c}>
+                <div className={chipBarClass} ref={c => this.chipBar = c}>
                     {filters.length === 0 &&
-                        <div>No filters selected</div>
+                        <div>No Filters Selected</div>
                     }
                     {filters.map((filter, idx) => (
                         <Chip className={classes.chip} deletable onDeleteClick={e => this.handleDeleteFilter(filter)}>
@@ -125,15 +127,19 @@ class ReportBuilder extends React.Component {
                     { !filterForm &&
                         <div>
                             <h3 className={classes.title}>Filter Reports</h3>
-                            <Button
-                              label='Add Vehicle'
-                              raised
-                              primary
-                              onClick={e => this.setState({ filterForm: 'vehicle' }) } />
-                            <Button
-                              label='Add Person'
-                              raised primary
-                              onClick={e => this.setState({ filterForm: 'person' }) } />
+                            <div className={classes.addFilterButton}>
+                                <Button
+                                  label='Add Vehicle'
+                                  raised
+                                  primary
+                                  onClick={e => this.setState({ filterForm: 'vehicle' }) } />
+                            </div>
+                            <div className={classes.addFilterButton}>
+                                <Button
+                                  label='Add Person'
+                                  raised primary
+                                  onClick={e => this.setState({ filterForm: 'person' }) } />
+                            </div>
                         </div>
                     }
                     { filterForm &&

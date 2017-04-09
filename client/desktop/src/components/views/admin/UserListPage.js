@@ -15,10 +15,10 @@ class UserListPage extends React.Component {
         return (
             <Table selectable={false}>
                 <TableHead>
-                    <TableCell>name</TableCell>
-                    <TableCell>role</TableCell>
-                    <TableCell>email</TableCell>
-                    <TableCell>phone</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Role</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Phone</TableCell>
                 </TableHead>
                 {this.props.list.map((user, idx) => (
                     <TableRow key={idx}>

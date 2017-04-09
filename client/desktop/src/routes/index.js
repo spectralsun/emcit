@@ -38,7 +38,7 @@ const reportRoutes = {
 
 const analystRoutes = [
     reportRoutes,
-    catchAllUser
+    catchAllAnalyst
 ]
 
 export default function configureRoutes(store) {

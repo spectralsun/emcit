@@ -43,7 +43,14 @@ class ReportTablePage extends React.Component {
     render() {
         return (
             <Table selectable={false}>
-                <TableHead></TableHead>
+                <TableHead>
+                    <TableCell>Created At</TableCell>
+                    <TableCell>Vehicle(s)</TableCell>
+                    <TableCell>Suspicious Person(s)</TableCell>
+                    <TableCell>Victim(s)</TableCell>
+                    <TableCell>Location</TableCell>
+                    <TableCell>Room Number</TableCell>
+                </TableHead>
                 {this.props.list.map((report, idx) => (
                     <TableRow key={idx}>
                         <TableCell>{report.date}</TableCell>
