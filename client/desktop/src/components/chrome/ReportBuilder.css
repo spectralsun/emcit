@@ -3,15 +3,17 @@
         position: absolute;
         top: 0;
         min-height: 42px;
-        left: 200px;
+        left: 220px;
         right: 0;
         background: lightblue;
-        border-right: 3px solid #444;
+        border-bottom: 3px solid #444;
         z-index: 10000;
         padding: 0 4px;
 
-        &.empty {
+        &.emptyChipBar {
             text-align: center;
+            line-height: 38px;
+            font-size: 23px;
         }
     }
 
@@ -19,6 +21,10 @@
         font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
         text-align: center;
         font-size: 23px;
+    }
+
+    .addFilterButton {
+        margin-bottom: 10px;
     }
 
     .filters {
@@ -31,12 +37,13 @@
         overflow: auto;
         border-right: 3px solid #444;
         z-index: 10000;
+        padding: 0 10px;
     }
 
     .reportView {
         position: absolute;
         top: 40px;
-        left: 200px;
+        left: 220px;
         right: 0;
         bottom: 0;
         overflow: auto;
