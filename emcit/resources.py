@@ -6,8 +6,8 @@ def ReportResource(report):
         date=report.date,
         location=report.location,
         room_number=report.room_number,
-        geo_latitude=report.geo_latitude,
-        geo_longitude=report.geo_longitude,
+        lat=report.geo_latitude,
+        lng=report.geo_longitude,
         vehicles=map(VehicleResource, report.vehicles),
         people=map(PersonResource, report.people)
     )
@@ -54,7 +54,6 @@ def UserAdministrationResource(user):
         phone_number=user.phone_number,
         role=user.role
     )
-
 
 def AccountResource(user):
     return dict(

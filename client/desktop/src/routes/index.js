@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Chrome from 'c/chrome';
 import Splash from 'c/splash';
 import LoginPage from 'common/components/views/LoginPage'
+import ReportTablePage from 'c/views/analyze/ReportTablePage'
+import ReportBuilder from 'c/chrome/ReportBuilder'
 
 
 const catchAllAnon = { path: '*', onEnter: ({params}, replace) => replace('/login') }
@@ -21,18 +23,25 @@ const adminRoutes = [
     catchAllUser
 ];
 
+const reportRoutes = {
+    component: ReportBuilder,
+    childRoutes: [
+        { path: '/reports', component: ReportTablePage }
+    ]
+}
+
 const analystRoutes = [
     { path: '/', component: Splash },
+    //{ path: '/reports', component: ReportTablePage },
+    reportRoutes,
     catchAllUser
 ]
 
 export default function configureRoutes(store) {
 
-    function getUserRoutes(user) {
-        switch(user.role) {
-            case 'admin':    return adminRoutes;
-            case 'analyst':  return analystRoutes;
-        }
+    const routeMap = {
+        admin: adminRoutes,
+        analyst: analystRoutes
     }
 
     return {
@@ -40,14 +49,14 @@ export default function configureRoutes(store) {
         getChildRoutes(partialNextState, cb) {
             const { user } = store.getState().account;
             if (user) {
-                cb(null, getUserRoutes(user))
+                cb(null, routeMap[user.role]);
             } else {
                 cb(null, externalRoutes);
                 const unsubscribe = store.subscribe(() => {
                     const { user } = store.getState().account;
                     if (user)  {
                         unsubscribe();
-                        cb(null, getUserRoutes(user))
+                        cb(null, routeMap[user.role]);
                     }
                 });
             }

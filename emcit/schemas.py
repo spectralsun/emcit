@@ -7,8 +7,8 @@ user_schema = {
 }
 
 login_schema = {
-    'email': {'type': 'string'},
-    'password': {'type': 'string'}
+    'email': {'type': 'string', 'required': True, 'empty': False},
+    'password': {'type': 'string', 'required': True, 'empty': False}
 }
 
 vehicle_schema = {

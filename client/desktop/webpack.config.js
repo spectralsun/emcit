@@ -44,6 +44,8 @@ const config = {
         alias: {
             common: __dirname + '/../common',
             c: __dirname + '/src/components',
+            actions: __dirname + '/src/actions',
+            api: __dirname + '/src/api',
             reducers: __dirname + '/src/reducers'
         },
         extensions: ['', '.js', '.jsx', '.css'],

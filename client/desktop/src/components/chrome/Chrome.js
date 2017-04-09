@@ -4,6 +4,7 @@ import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
+import classes from './Chrome.css'
 
 class Chrome extends React.Component {
 
@@ -11,13 +12,15 @@ class Chrome extends React.Component {
         const { user } = this.props;
         return (
             <div>
-                <AppBar title="Emcit Desktop">
+                <AppBar title="Emcit Desktop" fixed>
                     <Navigation type="horizontal">
                         {user && <div data-react-toolbox="link">{user.name}</div>}
                         {user && <div data-react-toolbox="link"><a href="/logout">Logout</a></div>}
                     </Navigation>
                 </AppBar>
-                {this.props.children}
+                <div className={classes.views}>
+                    {this.props.children}
+                </div>
             </div>
         )
     }

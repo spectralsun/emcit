@@ -1,0 +1,47 @@
+.reportBuilder {
+    .chipBar {
+        position: absolute;
+        top: 0;
+        min-height: 40px;
+        left: 200px;
+        right: 0;
+        background: lightblue;
+    }
+
+    .filters {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 200px;
+        background: rgba(0,0,0,.05);
+    }
+
+    .reportView {
+        position: absolute;
+        top: 40px;
+        left: 200px;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+    }
+
+    .chip {
+
+        > span:nth-child(2) {
+            position: absolute;
+            right: 0;
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            padding: 4px;
+            margin: 4px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+        path {
+            stroke-width: 4px;
+        }
+    }
+}
