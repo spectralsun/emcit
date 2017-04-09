@@ -3,9 +3,11 @@ from flask import Blueprint, request, jsonify
 from flask_login import (
     login_user, logout_user, login_required, current_user
 )
+
 from emcit.models import User
 from emcit.util import api_error, validate
 from emcit.resources import AccountResource
+from emcit.schemas import login_schema
 
 account_api = Blueprint('account_api', __name__)
 
@@ -21,10 +23,7 @@ def get_current_user():
 
 
 @account_api.route('/login', methods=['POST'])
-@validate({
-    'email': {'type': 'string'},
-    'password': {'type': 'string'}
-})
+@validate(login_schema)
 def login():
     json = request.get_json()
 

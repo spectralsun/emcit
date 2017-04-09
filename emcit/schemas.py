@@ -6,6 +6,11 @@ user_schema = {
     'role': {'type': 'string', 'required': True}
 }
 
+login_schema = {
+    'email': {'type': 'string'},
+    'password': {'type': 'string'}
+}
+
 vehicle_schema = {
     'make': {'type': 'string'},
     'model': {'type': 'string'},
