@@ -6,6 +6,8 @@ import Splash from 'c/splash';
 import LoginPage from 'common/components/views/LoginPage'
 import ReportTablePage from 'c/views/analyze/ReportTablePage'
 import ReportBuilder from 'c/chrome/ReportBuilder'
+import UserListPage from 'c/views/admin/UserListPage'
+import { CreateUserPage, UpdateUserPage } from 'c/views/admin/UserFormPage'
 
 
 const catchAllAnon = { path: '*', onEnter: ({params}, replace) => replace('/login') }
@@ -16,10 +18,11 @@ const externalRoutes = [
     catchAllAnon
 ]
 
-const userRoutes = []
-
 const adminRoutes = [
     { path: '/', component: Splash },
+    { path: '/users', component: UserListPage },
+    { path: '/users/new', component: CreateUserPage },
+    { path: '/users/:id', component: UpdateUserPage },
     catchAllUser
 ];
 

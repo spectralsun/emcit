@@ -15,6 +15,8 @@ class Chrome extends React.Component {
                 <AppBar title="Emcit Desktop" fixed>
                     <Navigation type="horizontal">
                         {user && <div data-react-toolbox="link">{user.name}</div>}
+                        {user && <div data-react-toolbox="link"><Link to="/users/new">New User</Link></div>}
+                        {user && <div data-react-toolbox="link"><Link to="/users">Users</Link></div>}
                         {user && <div data-react-toolbox="link"><a href="/logout">Logout</a></div>}
                     </Navigation>
                 </AppBar>
