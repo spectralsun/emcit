@@ -4,7 +4,7 @@ import { loadedReports } from 'actions'
 
 export const getReports = filters => dispatch => {
     console.log(filters)
-    request.get('/api/v1/report')
+    request.post('/api/v1/analytics', filters)
         .then(res => dispatch(loadedReports(res.data)))
         //.catch()
 }

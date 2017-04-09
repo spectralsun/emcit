@@ -11,9 +11,7 @@ def required_access(*roles):
             if current_user.is_anonymous or current_user.role not in roles:
                 return 'Access Denied.', 403
             return f(*args, **kwargs)
-
         return decorated
-
     return templated
 
 
@@ -30,7 +28,5 @@ def validate(schema):
             v = Validator(schema)
             result = v.validate(request.get_json())
             return f(*args, **kwargs) if result else api_error(v.errors)
-
         return decorated
-
     return templated

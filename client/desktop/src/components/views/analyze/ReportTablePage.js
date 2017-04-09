@@ -24,9 +24,19 @@ class ReportTablePage extends React.Component {
         )
     }
 
-    renderPerps() {
+    renderPerson({ sex, eye_color, hair_length, hair_color, weight }) {
+        const getEyes = () => eye_color ? eye_color.replace('_',' ') + ' eyes' : '';
+        const getHair = () => {
+            const color = hair_color ? hair_color.replace('_',' ') : null;
+            const vals = [hair_length, color].filter(v => !!v);
+            if (vals.length > 0)
+                return vals.join(' ') + ' hair'
+            return ''
+        }
         return (
-            null
+            <div>
+                {sex} with {getEyes()} {getHair()} weighing {weight}lbs
+            </div>
         )
     }
 
@@ -37,9 +47,11 @@ class ReportTablePage extends React.Component {
                 {this.props.list.map((report, idx) => (
                     <TableRow key={idx}>
                         <TableCell>{report.date}</TableCell>
+                        <TableCell>{report.vehicles.map(this.renderVehicle)}</TableCell>
+                        <TableCell>{report.people.filter(p => p.category === 'victim').map(this.renderPerson)}</TableCell>
+                        <TableCell>{report.people.filter(p => p.category === 'suspicious_person' || p.category === 'buyer').map(this.renderPerson)}</TableCell>
                         <TableCell>{report.location}</TableCell>
                         <TableCell>{report.room_number}</TableCell>
-                        <TableCell>{report.vehicles.map(this.renderVehicle)}</TableCell>
                     </TableRow>
                 ))}
             </Table>

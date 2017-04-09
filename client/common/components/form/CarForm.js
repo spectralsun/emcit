@@ -55,7 +55,7 @@ export default class CarForm extends React.Component {
         if (!make && !model && !color && !license_plate) {
             return this.setState({ errors: ['Please select at least a Make, Model, Color or specify License Plate'] })
         }
-        this.props.onSubmit({ make, model, color, license_plate, type: 'Vehicle' });
+        this.props.onSubmit({ make, model, color, license_plate, type: 'vehicle' });
     }
 
     setMake(make) {
