@@ -70,7 +70,7 @@ class UserFormPage extends React.Component {
                     onChange={this.setName}
                 />
                 <Input
-                    type='text'
+                    type='email'
                     label='Email'
                     name='email'
                     value={this.state.email}
