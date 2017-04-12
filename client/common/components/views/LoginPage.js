@@ -1,25 +1,21 @@
-import React, {Component} from "react";
+import React from "react";
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
 
-import { FormErrors } from 'common/components/form';
+import { Form, FormErrors } from '../form';
 import { clearLoginErrors } from 'common/actions';
 import { loginUser } from 'common/api';
 
 import classes from './LoginPage.css'
 
 
-class LoginPage extends Component {
-
-    constructor() {
-        super();
-        this.state = {
-            email: '',
-            password: ''
-        };
-    }
+class LoginPage extends React.Component {
+    state = {
+        email: '',
+        password: ''
+    };
 
     componentWillMount() {
         this.props.clearLoginErrors();
@@ -31,8 +27,7 @@ class LoginPage extends Component {
         }
     }
 
-    onSubmit(e) {
-        e.preventDefault();
+    onSubmit = e => {
         const { email, password } = this.state;
         this.props.loginUser(email, password)
     }
@@ -41,30 +36,29 @@ class LoginPage extends Component {
         const { loginError } = this.props;
         return (
             <div className={classes.loginPage}>
-                <div className={classes.loginBox}>
-                    <form onSubmit={this.onSubmit.bind(this)} className="loginForm">
-                        <div className={classes.logo}>
-                            <img src="/static/EmeraldCitizen.svg" alt="Emerald Citizen logo"/>
-                        </div>
-                        <FormErrors errors={loginError.form} />
-                        <Input
-                            value={this.state.email}
-                            className='email'
-                            type="email"
-                            label='Email'
-                            error={loginError.email && loginError.email.join('\r\n')}
-                            onChange={email => this.setState({email})} />
-                        <Input
-                            value={this.state.password}
-                            className='password'
-                            type="password"
-                            label='Password'
-                            error={loginError.password && loginError.password.join('\r\n')}
-                            onChange={password => this.setState({password})}/>
-                        <Button className='submitButton' type='submit' raised primary>Login</Button>
-                    </form>
-
-                </div>
+                <Form onSubmit={this.onSubmit}>
+                    <div className={classes.logo}>
+                        <img src='/static/EmeraldCitizen.svg' alt='Emerald Citizen logo'/>
+                    </div>
+                    <FormErrors errors={loginError.form} />
+                    <Input
+                      value={this.state.email}
+                      className='email'
+                      type='email'
+                      label='Email'
+                      error={loginError.email && loginError.email.join('\r\n')}
+                      onChange={email => this.setState({email})}
+                    />
+                    <Input
+                      value={this.state.password}
+                      className='password'
+                      type='password'
+                      label='Password'
+                      error={loginError.password && loginError.password.join('\r\n')}
+                      onChange={password => this.setState({password})}
+                    />
+                    <Button type='submit' raised primary>Login</Button>
+                </Form>
             </div>
         );
     }

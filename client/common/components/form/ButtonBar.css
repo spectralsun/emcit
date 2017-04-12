@@ -1,0 +1,8 @@
+.buttonBar {
+    padding: 10px 0;
+    min-height: 36px;
+
+    .right {
+        float: right;
+    }
+}

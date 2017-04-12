@@ -5,9 +5,36 @@ import {
     clearLoginErrors,
     loggingIn,
     loadedCurrentUser,
-    loginFailed
+    loginFailed,
+    requestStarted,
+    requestFinished,
+    requestError
 } from 'common/actions';
 
+
+export const request = createReducer({
+    [requestStarted]: (state, { symbol, requestData }) =>
+        state.merge({
+            started: true,
+            success: undefined,
+            error: undefined,
+            data: undefined,
+            symbol, requestData
+        }),
+    [requestFinished]: (state, { symbol, data, requestData }) =>
+        state.merge({
+            started: false,
+            success: true,
+            symbol, data, requestData
+        }),
+    [requestError]: (state, { symbol, data, requestData }) =>
+        state.merge({
+            started: false,
+            error: true,
+            success: false,
+            symbol, data, requestData
+        })
+}, Immutable({ started: false, error: false, success: false, symbol: null }));
 
 export const account = createReducer({
     [clearLoginErrors]: state => state.merge({ loginError: {} }),

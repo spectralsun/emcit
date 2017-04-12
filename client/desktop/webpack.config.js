@@ -16,7 +16,7 @@ const config = {
         __dirname + '/src/entry.js'
     ],
     output: {
-        path: __dirname + '/../../emcit/static',
+        path: __dirname + '/../../server/emcit/static',
         filename: 'desktop.js'
     },
 	module: {
@@ -26,7 +26,8 @@ const config = {
                 exclude: /node_modules/,
                 loader: __dirname + '/../node_modules/babel-loader',
                 query: {
-                    presets: ['react', 'es2015']
+                    presets: ['react', 'es2015'],
+                    plugins: ['transform-class-properties']
                 }
             },
             {
@@ -43,10 +44,12 @@ const config = {
     resolve: {
         alias: {
             common: __dirname + '/../common',
+            common_form: __dirname + '/../common/components/form',
             c: __dirname + '/src/components',
             actions: __dirname + '/src/actions',
             api: __dirname + '/src/api',
-            reducers: __dirname + '/src/reducers'
+            reducers: __dirname + '/src/reducers',
+            map: __dirname + '/src/components/map'
         },
         extensions: ['', '.js', '.jsx', '.css'],
         modulesDirectories: [

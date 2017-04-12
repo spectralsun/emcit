@@ -9,11 +9,9 @@ import './main.css';
 import configureRoutes from './routes'
 import configureStore from './store'
 
-const state = {
+const store = configureStore({
     account: Immutable(INITIAL_STATE.account)
-}
-
-const store = configureStore(state);
+});
 
 const routes = configureRoutes(store)
 
@@ -23,4 +21,4 @@ render(
     <Provider store={store}>
         <Router history={history} routes={routes} />
     </Provider>
-,document.getElementById('entry'));
+, document.getElementById('entry'));

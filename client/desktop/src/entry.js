@@ -10,23 +10,18 @@ import configureStore from './store'
 
 import './entry.css'
 
-const state = {
+const store = configureStore({
     account: Immutable(INITIAL_STATE.account)
-}
-
-const store = configureStore(state);
+});
 
 const routes = configureRoutes(store);
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-render(
+const App = (
     <Provider store={store}>
         <Router history={history} routes={routes} />
     </Provider>
-,
-document.getElementById('entry'));
+);
 
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
+render(App, document.getElementById('entry'));
