@@ -40,7 +40,7 @@ const color = [
 export default class CarForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = props.initialState || {
             make: null,
             model: null,
             color: null,
