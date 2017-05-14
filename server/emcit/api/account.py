@@ -6,7 +6,7 @@ from flask_login import (
 
 from emcit.models import User
 from emcit.util import api_error, validate
-from emcit.resources import AccountResource
+from emcit.resources import CurrentUserResource
 from emcit.schemas import login_schema
 
 account_api = Blueprint('account_api', __name__)
@@ -19,7 +19,7 @@ def get_current_user():
     if current_user.is_authenticated:
         user = current_user
 
-    return jsonify(AccountResource(user)) if user else '', 404
+    return jsonify(CurrentUserResource(user)) if user else '', 404
 
 
 @account_api.route('/login', methods=['POST'])
@@ -32,7 +32,7 @@ def login():
 
         if user is not None and user.check_password(json.get('password')):
             login_user(user)
-            return jsonify(AccountResource(user))
+            return jsonify(CurrentUserResource(user))
 
     return api_error(dict(form=['Invalid username/password.']))
 

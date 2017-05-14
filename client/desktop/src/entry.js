@@ -10,9 +10,7 @@ import configureStore from './store'
 
 import './entry.css'
 
-const store = configureStore({
-    account: Immutable(INITIAL_STATE.account)
-});
+const store = configureStore({ currentUser: Immutable(INITIAL_STATE.currentUser) });
 
 const routes = configureRoutes(store);
 

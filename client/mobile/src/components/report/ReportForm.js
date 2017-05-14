@@ -21,11 +21,6 @@ const peopleNameMap = {
 }
 
 class ReportForm extends Component {
-    handleGeoSelect = ({lat, lng, address}) =>
-        this.setValue('location', address).
-             setValue('geo_latitude', lat).
-             setValue('geo_longitude', lng);
-
     getChipCount(type) {
         this.props.incrementCount(type);
         return this.props.counter[type] + 1;
@@ -72,11 +67,7 @@ class ReportForm extends Component {
                   value={report.date}
                   format='ampm'
                 />
-                <GeoLocation
-                  placeholder='Location of Incident'
-                  style={{paddingTop: 50}}
-                  onSelect={this.handleGeoSelect}
-                />
+                <GeoLocation label='Location of Incident' />
                 <Input
                   label='Room Number'
                   value={report.room_number}

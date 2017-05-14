@@ -2,44 +2,44 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Button from "react-toolbox/lib/button";
 
-import { exists } from 'common/util';
+import { checkRequest } from 'common/util';
 import { PageContainer } from 'c/chrome';
 import { ReportForm } from 'c/report';
 import { createReport } from 'api';
 import { resetReport } from 'actions';
 import classes from './ReportPage.css';
 
+
 class ReportPage extends Component {
     state = {
-        submitted: false,
-        loading: false,
+        success: false,
+        sending: false,
         error: ''
     };
 
-    componentWillReceiveProps({ request: { started, symbol, error, success, data }}) {
-        if (!this.props.request.started && started && symbol === createReport.symbol) {
-            this.setState({ sending: true });
-        }
-        if (this.props.request.started && !started && symbol === createReport.symbol) {
-            if (success) {
-                this.setState({ submitted: true });
-            }
-        }
+    componentWillReceiveProps({ request }) {
+        checkRequest(this.props.request, request, createReport, {
+            start: () => this.setState({ sending: true }),
+            end: () => this.setState({ success: true }),
+            finally: () => this.setState({ sending: false })
+        })
     }
 
-    handleFormSubmit = state => this.setState({ loading: true }, () => {
-        this.props.createReport(Object.assign({}, this.props.report, {
-            date: this.props.report.date.getTime()
-        }));
-    });
+    handleFormSubmit = e => {
+        const { report, geo: { address, search, position }} = this.props;
+        const data = report.merge({
+            date: report.date.getTime(),
+            location: address || search,
+            geo_latitude: position ? position.lat : undefined,
+            geo_longitude: position ? position.lng : undefined
+        });
+        this.props.createReport({ data });
+    };
 
-    handleReset = e => {
-        this.setState({ submitted: false });
-        this.props.resetReport();
-    }
+    handleReset = e => this.setState({ success: false }, this.props.resetReport);
 
     render() {
-        if (this.state.submitted) {
+        if (this.state.success) {
             return (
                 <PageContainer className={classes.thanksPage}>
                     <h1>Thanks for submitting a report</h1>
@@ -64,6 +64,6 @@ class ReportPage extends Component {
     }
 }
 
-const mapStateToProps = ({ report, request }) => ({ report, request });
+const mapStateToProps = ({ report, request, geo }) => ({ report, request, geo });
 
 export default connect(mapStateToProps, { createReport, resetReport })(ReportPage);

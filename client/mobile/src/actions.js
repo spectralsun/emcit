@@ -12,3 +12,10 @@ export const removeVehicle = createAction('REMOVE_VEHICLE');
 
 /* Counter Actions */
 export const incrementCount = createAction('INCREMENT_COUNT')
+
+/* Geo Actions */
+export const getCurrentPosition = createAction('GET_CURRENT_POSITION');
+export const getAddressPosition = createAction('GET_ADDRESS_POSITION');
+export const setPositionError = createAction('SET_POSITION_ERROR');
+export const setPosition = createAction('SET_POSITION');
+export const setGeoSearch = createAction('SET_SEARCH');

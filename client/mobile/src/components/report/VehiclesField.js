@@ -4,13 +4,13 @@ import { withRouter } from 'react-router';
 import Button from 'react-toolbox/lib/button';
 
 import { ChipList } from 'common_form';
-import { capitalize, exists } from 'common/util';
+import { capitalize } from 'common/util';
 import { incrementCount, addVehicle } from 'actions';
 
 
 class VehiclesField extends React.Component {
     getVehicleTitle = vehicle =>
-        [vehicle.color, vehicle.make, vehicle.model].filter(exists).map(capitalize).join(' ');
+        [vehicle.color, vehicle.make, vehicle.model].filter(v => v).map(capitalize).join(' ');
 
     handleChipClick = (e, { id }) => {
         this.props.router.push(`/form/vehicle/${id}`);

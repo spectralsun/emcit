@@ -10,6 +10,9 @@ import FormErrors from 'common/components/form/FormErrors';
 import { user_roles } from 'common/consts';
 import { Form } from 'common_form';
 import { getUser, createUser, updateUser } from 'api';
+import { checkRequest } from 'common/util';
+
+import classes from './UserFormPage.css';
 
 
 class UserFormPage extends React.Component {
@@ -18,43 +21,51 @@ class UserFormPage extends React.Component {
         email: '',
         password: '',
         phone_number: '',
-        role: ''
+        role: '',
+        error: {}
     }
 
     componentDidMount() {
-        if (this.props.id) {
-            this.props.getUser(this.props.id);
+        const { id } = this.props;
+        if (id) {
+            this.props.getUser({ id });
         }
     }
 
-    componentWillReceiveProps({ user, request: { started, symbol } }) {
-        if (user) {
+    componentWillReceiveProps({ user, request }) {
+        if (this.props.user !== user && user) {
             const { name, email, phone_number, role } = user;
             this.setState({ name, email, phone_number, role });
         }
-        if (this.props.request.started && !started &&
-                [createUser.symbol, updateUser.symbol].includes(symbol)) {
-            this.props.router.push('/users');
-        }
+        checkRequest(this.props.request, request, [createUser, updateUser], {
+            end: () => this.props.router.push('/users'),
+            error: error => this.setState({ error })
+        });
     }
 
     handleSubmit = e => {
-        const { createUser, updateUser, id } = this.props;
+        const { id } = this.props;
         const { name, email, password, phone_number, role } = this.state;
         const data = { name, email, password, phone_number, role };
-        id ? createUser(data) : updateUser(id, data);
+        id ? this.props.updateUser({ id, data }) : this.props.createUser({ data });
     }
 
     render() {
         const { id } = this.props;
+        const { error } = this.state;
+        if (id && !this.props.user) {
+            return <div className={classes.userFormPage}><h1>Loading User...</h1></div>;
+        }
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <FormErrors errors={this.state.errors} />
+            <Form onSubmit={this.handleSubmit} className={classes.userFormPage}>
+                <h1>{id ? 'Edit' : 'Add'} User</h1>
+                <FormErrors errors={error.form} />
                 <Input
                   type='text'
                   label='Name'
                   name='name'
                   value={this.state.name}
+                  error={error.name && error.name.join('\r\n')}
                   onChange={name => this.setState({ name })}
                 />
                 <Input
@@ -62,6 +73,7 @@ class UserFormPage extends React.Component {
                   label='Email'
                   name='email'
                   value={this.state.email}
+                  error={error.email && error.email.join('\r\n')}
                   onChange={email => this.setState({ email })}
                 />
                 <Input
@@ -69,6 +81,7 @@ class UserFormPage extends React.Component {
                   label='Password'
                   name='password'
                   value={this.state.password}
+                  error={error.password && error.password.join('\r\n')}
                   onChange={password => this.setState({ password })}
                 />
                 <Input
@@ -76,6 +89,7 @@ class UserFormPage extends React.Component {
                   label='Phone'
                   name='phone'
                   value={this.state.phone_number}
+                  error={error.phone_number && error.phone_number.join('\r\n')}
                   onChange={phone_number => this.setState({ phone_number })}
                 />
                 <Dropdown
@@ -83,6 +97,7 @@ class UserFormPage extends React.Component {
                   label="Role"
                   source={user_roles}
                   value={this.state.role}
+                  error={error.role && error.role.join('\r\n')}
                   onChange={role => this.setState({ role })}
                 />
                 <Button type='submit' raised primary>

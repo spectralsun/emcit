@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { PageContainer } from 'c/chrome';
 import { VehicleForm } from 'common_form';
 import { SaveButtonBar } from 'form';
-import { setVehicleValue } from 'actions';
+import { setVehicleValue, removeVehicle } from 'actions';
 
 
 class VehicleFormPage extends React.Component {
@@ -18,6 +18,11 @@ class VehicleFormPage extends React.Component {
     handleChange = (key, value) =>
         this.props.setVehicleValue({ id: this.props.vehicle.id, key, value });
 
+    handleDelete = () => {
+        this.props.removeVehicle(this.props.vehicle.id);
+        this.props.router.push('/');
+    }
+
     handleSave = e => this.props.router.push('/');
 
     render() {
@@ -27,7 +32,7 @@ class VehicleFormPage extends React.Component {
         }
         return (
             <PageContainer>
-                <SaveButtonBar onSave={this.handleSave} />
+                <SaveButtonBar onDelete={this.handleDelete} onSave={this.handleSave} />
                 <h3>{vehicle.title}</h3>
                 <VehicleForm
                   vehicle={vehicle}
@@ -44,5 +49,6 @@ const mapStateToProps = ({ report: { vehicles }}, { params: { id } }) =>
     ({ vehicle: vehicles.find(v => v.id === id) });
 
 export default connect(mapStateToProps, {
+    removeVehicle,
     setVehicleValue
 })(withRouter(VehicleFormPage));

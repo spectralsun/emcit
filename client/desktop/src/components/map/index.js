@@ -1,1 +1,1 @@
-export { default as ReportMarker } from './ReportMarker';
+export ReportMarker from './ReportMarker';

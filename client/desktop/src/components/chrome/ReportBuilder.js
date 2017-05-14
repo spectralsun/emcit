@@ -37,7 +37,8 @@ class ReportBuilder extends React.Component {
     }
 
     getReports() {
-        this.props.getReports(this.state.filters);
+        const data = this.state.filters;
+        this.props.getReports({ data });
     }
 
     handleFilterSubmit = (entity, values) => {
@@ -49,12 +50,6 @@ class ReportBuilder extends React.Component {
         const filters = this.state.filters.filter(f => f !== filter);
         this.setState({ filters }, this.getReports)
     }
-
-    setFormData = (key, value) => this.setState({
-        filterFormData: Object.assign({}, this.state.filterFormData, {
-            [key]: value
-        })
-    })
 
     getChipText = ({ entity, values }) => this.formatters[entity](values);
 

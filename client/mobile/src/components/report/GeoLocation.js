@@ -1,7 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux';
 import cx from 'classnames';
 import { findDOMNode } from 'react-dom';
-import PlacesAutocomplete, {geocodeByAddress} from 'react-places-autocomplete'
+import PlacesAutocomplete from 'react-places-autocomplete'
 import muiClasses from 'react-toolbox/lib/input/theme.css';
 import Avatar from 'react-toolbox/lib/avatar';
 import Chip from 'react-toolbox/lib/chip';
@@ -9,62 +10,14 @@ import { Button } from 'react-toolbox/lib/button';
 import Input from "react-toolbox/lib/input";
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
+import { getCurrentPosition, getAddressPosition, setPosition, setGeoSearch } from 'actions';
 
 import classes from './GeoLocation.css';
 
-const geolocationErrorMsgs = [ '',
-    'Please allow location access from your browser settings',
-    'Position unvailable due to error, please try again',
-    'Position timed out, please try again'
-];
-
 class GeoLocation extends React.Component {
-    state = {
-        lat: null,
-        lng: null,
-        address: null,
-        error: null,
-        loadingMessage: ''
-    }
-
-    handleDelete = e => {
-        this.setState({ address: null, location: '', lat: null, lng: null });
-    }
-
-    handleGeoLocate = e => {
-        if (!navigator.geolocation) {
-
-        }
-        this.setState({ loadingMessage: 'Waiting for location permission...' });
-        navigator.geolocation.getCurrentPosition(({ coords: { latitude: lat, longitude: lng }}) => {
-            this.setSelectedLocation({ address: 'Current Location', lat, lng });
-        }, ({ code, message }) => {
-            this.setState({ loadingMessage: false, error: geolocationErrorMsgs[code] });
-        }, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        });
-    }
-
-    handleSelect = address => {
-        this.setState({ loadingMessage: 'Looking up address coordinates...' })
-
-        geocodeByAddress(address, (error, { lat, lng }) => {
-            if (error) {
-                this.setState({ loadingMessage: false, error })
-            } else {
-                this.setSelectedLocation({ address, lat, lng });
-            }
-        })
-    }
+    handlePlacesSelect = address => this.props.getAddressPosition(address);
 
     handleChange = address => this.setState({ address, error: null })
-
-    setSelectedLocation = ({ address, lat, lng }) =>
-        this.setState({ address, lat, lng, loadingMessage: false, error: false },
-            () => { this.props.onSelect({ address, lat, lng }) }
-        );
 
     componentDidMount() {
         // Re-fire input and keydown events from toolbox input to autocomplete (monkey patch)
@@ -78,6 +31,9 @@ class GeoLocation extends React.Component {
         toolboxInput.addEventListener('blur', e => {
             autocompleteInput.dispatchEvent(new Event('blur', { bubbles: true }));
         })
+        toolboxInput.addEventListener('focus', e => {
+            autocompleteInput.dispatchEvent(new Event('input', { bubbles: true }));
+        })
         toolboxInput.addEventListener('keydown', e => {
             const { keyCode } = e;
             if ([13, 27, 38, 40].includes(keyCode)) {
@@ -87,31 +43,29 @@ class GeoLocation extends React.Component {
         });
     }
 
+    renderAutocompleteItem = ({ formattedSuggestion: { mainText, secondaryText }}) => (
+        <div>
+            <strong>{mainText}</strong> <small className="text-muted">{secondaryText}</small>
+        </div>
+    );
+
+    renderLocationChip = address => (
+        <div className={classes.locationChip}>
+            <Chip deletable onDeleteClick={e => this.props.setPosition({})}>
+                <Avatar icon="near_me" style={{backgroundColor: '#07a'}}/>
+                <span>{address}</span>
+            </Chip>
+        </div>
+    )
+
     render() {
-        const cssClasses = {
-            classes: muiClasses.input,
-            input: muiClasses.inputElement,
-            autocompleteContainer: classes.autocompleteContainer,
-        }
-        const AutocompleteItem = ({formattedSuggestion}) => (
-            <div>
-                {/* add map pin icon here */}
-                <strong>{formattedSuggestion.mainText}</strong>
-                {' '} {/*  space between main text and muted text  */}
-                <small className="text-muted">{formattedSuggestion.secondaryText}</small>
-            </div>
-        );
-        const { loadingMessage, address, lat, lng, error, location } = this.state;
-        const position = (lat && lng) ? [lat, lng] : undefined;
+        const { label, geo: { locating, error, address, position, search }} = this.props;
         const className = cx(classes.geoLocation, {
-            [classes.hideInput]: !!address || loadingMessage,
+            [classes.hideInput]: !!address || locating,
             [classes.showMap]: !!position
         });
         return (
-            <div
-              className={className}
-              ref={c => this.component = c}
-            >
+            <div className={className} ref={c => this.component = c}>
                 <Map
                   key={position}
                   center={position}
@@ -126,38 +80,31 @@ class GeoLocation extends React.Component {
                 </Map>
                 <Input
                   className={classes.input}
-                  label="Location"
-                  onChange={v => this.setState({ location: v })}
+                  label={label}
+                  onChange={this.props.setGeoSearch}
                   onFocus={e => this.setState({ error: false })}
-                  value={location}
+                  value={search}
                   error={error}
                 />
-                {(!loadingMessage && !address) &&
-                    <Button raised primary icon="near_me" onClick={this.handleGeoLocate} />
+                {(!locating && !address) &&
+                    <Button raised primary icon="near_me" onClick={this.props.getCurrentPosition} />
                 }
-                {!!position &&
-                    <div className={classes.locationChip}>
-                        <Chip deletable onDeleteClick={this.handleDelete}>
-                            <Avatar icon="near_me" style={{backgroundColor: '#07a'}}/>
-                            <span>{address}</span>
-                        </Chip>
-                    </div>
-                }
-                {loadingMessage && <div className={classes.loading}>{loadingMessage}</div>}
+                {!!position && this.renderLocationChip(address)}
+                {locating && <div className={classes.loading}>{locating}</div>}
                 <PlacesAutocomplete
-                  onChange={() => {}}
-                  onSelect={this.handleSelect}
-                  autocompleteItem={AutocompleteItem}
-                  autoFocus={true}
-                  placeholder={this.props.placeholder}
-                  hideLabel={true}
-                  inputName="Demo__input"
-                  onEnterKeyDown={this.handleSelect}
-                  classNames={cssClasses}
+                  onChange={e => {}}
+                  onSelect={this.handlePlacesSelect}
+                  autocompleteItem={this.renderAutocompleteItem}
+                  onEnterKeyDown={() => this.handlePlacesSelect(search)}
                 />
             </div>
         )
     }
 }
 
-export default GeoLocation
+export default connect(({ geo }) => ({ geo }), {
+    getCurrentPosition,
+    getAddressPosition,
+    setPosition,
+    setGeoSearch
+})(GeoLocation);

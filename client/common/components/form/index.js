@@ -1,6 +1,6 @@
-export { default as ButtonBar } from './ButtonBar'
-export { default as FormErrors } from './FormErrors'
-export { default as Form } from './Form';
-export { default as ChipList } from './ChipList';
-export { default as ChipField } from './ChipField';
-export { default as VehicleForm } from './VehicleForm';
+export ButtonBar from './ButtonBar'
+export FormErrors from './FormErrors'
+export Form from './Form';
+export ChipList from './ChipList';
+export ChipField from './ChipField';
+export VehicleForm from './VehicleForm';

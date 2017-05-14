@@ -1,3 +1,3 @@
-export { default as PersonFormPage } from './PersonFormPage';
-export { default as ReportPage } from './ReportPage';
-export { default as VehicleFormPage } from './VehicleFormPage';
+export PersonFormPage from './PersonFormPage';
+export ReportPage from './ReportPage';
+export VehicleFormPage from './VehicleFormPage';

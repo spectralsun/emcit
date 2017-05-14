@@ -57,7 +57,9 @@ def UserAdministrationResource(user):
         role=user.role
     )
 
-def AccountResource(user):
+def CurrentUserResource(user):
+    if user.is_anonymous:
+        return None
     return dict(
         name=user.name,
         email=user.email,

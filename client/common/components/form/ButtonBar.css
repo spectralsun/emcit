@@ -1,8 +1,13 @@
 .buttonBar {
     padding: 10px 0;
     min-height: 36px;
+    margin-bottom: 40px;
 
     .right {
         float: right;
+    }
+
+    .left {
+        display: inline-block;
     }
 }

@@ -1,1 +1,1 @@
-export { default as SaveButtonBar } from './SaveButtonBar';
+export SaveButtonBar from './SaveButtonBar';

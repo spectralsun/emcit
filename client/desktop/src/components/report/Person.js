@@ -11,10 +11,10 @@ export default /* Person */ ({ sex, eye_color, hair_length, hair_color, weight }
     ].filter(v => v).join(' '));
     const person = [
         [
-            [capitalize(sex), getEyes()].filter(v => v).join(' with '),
-            getHair()
-        ].filter(v => v).join(' '),
-        weight && weight + 'lbs'
-    ].join(' weighing ');
+            sex ? capitalize(sex) : 'Person',
+            [getEyes(), getHair()].filter(v => v).join(' and '),
+        ].filter(v => v).join(' with '),
+        weight && `weighing ${weight}lbs`,
+    ].join(' ');
     return <div>{person}</div>
 }

@@ -8,10 +8,14 @@ import './main.css';
 
 import configureRoutes from './routes'
 import configureStore from './store'
+import Geo from './geo'
+
 
 const store = configureStore({
-    account: Immutable(INITIAL_STATE.account)
+    currentUser: Immutable(INITIAL_STATE.currentUser)
 });
+
+const geo = new Geo(store);
 
 const routes = configureRoutes(store)
 

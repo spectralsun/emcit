@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox';
 
-import { exists, capitalize } from 'common/util';
+import { capitalize } from 'common/util';
 import { Person, Vehicle } from 'c/report';
 import { getReports } from 'api';
 

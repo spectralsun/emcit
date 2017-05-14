@@ -14,6 +14,8 @@ def required_access(*roles):
         return decorated
     return templated
 
+def form_error(message):
+    return api_error(dict(form=[message]))
 
 def api_error(error=dict(message='Bad Request'), code=400):
     response = jsonify(error)

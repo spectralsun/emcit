@@ -2,9 +2,8 @@ import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux';
 import Immutable from 'seamless-immutable';
 
-import { account, request } from 'common/reducers'
-import { requestStarted, requestFinished, requestError } from 'common/actions';
-import { createReducer } from 'common/util';
+import { currentUser } from 'common/reducers'
+import { createReducer, requestReducer as request } from 'common/util';
 import {
     setReportValue,
     addPerson,
@@ -16,7 +15,12 @@ import {
     removeVehicle,
 
     incrementCount,
-    resetReport
+    resetReport,
+    getCurrentPosition,
+    getAddressPosition,
+    setGeoSearch,
+    setPositionError,
+    setPosition
 } from 'actions';
 import { createReport } from 'api';
 
@@ -72,12 +76,37 @@ const counter = createReducer({
     [resetReport]: state => Immutable(COUNTER_INITIAL_STATE)
 }, Immutable(COUNTER_INITIAL_STATE));
 
+const GEO_INITIAL_STATE = {
+    address: null,
+    search: '',
+    locating: false,
+    error: false,
+    position: null
+}
+
+const CURRENT_LOCATING = 'Waiting for location permission...';
+const ADDRESS_LOCATING = 'Looking up address coordinates...';
+
+const geo = createReducer({
+    [getCurrentPosition]: (state, locating) =>
+        state.merge({ address: null, locating: CURRENT_LOCATING, }),
+    [getAddressPosition]: (state, address) =>
+        state.merge({ address, locating: ADDRESS_LOCATING }),
+    [setPositionError]: (state, error) =>
+        state.merge({ locating: false, error }),
+    [setPosition]: (state, { address, position }) =>
+        state.merge({ address, position, search: '', locating: false }),
+    [setGeoSearch]: (state, search) => state.merge({ search }),
+    [resetReport]: () => Immutable(GEO_INITIAL_STATE)
+}, Immutable(GEO_INITIAL_STATE));
+
 export default combineReducers({
     routing,
 
-    account,
+    currentUser,
     request,
 
     counter,
-    report
+    geo,
+    report,
 });

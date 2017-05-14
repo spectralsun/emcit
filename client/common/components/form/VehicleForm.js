@@ -10,7 +10,7 @@ import {
 } from 'common/consts/vehicleOptions';
 
 export default class VehicleForm extends React.Component {
-    setMake(make) {
+    setMake = make => {
         const { model } = this.props.vehicle;
         if (model && !MODEL_OPTIONS[make].some(m => m.value === model)) {
             this.props.onChange('model', null);
@@ -18,7 +18,7 @@ export default class VehicleForm extends React.Component {
         this.props.onChange('make', make);
     }
 
-    setModel(model) {
+    setModel = model => {
         if (!this.props.vehicle.make) {
             this.props.onChange('make', ALL_MODEL_OPTIONS.find(m => m.value === model).make);
         }
@@ -34,14 +34,14 @@ export default class VehicleForm extends React.Component {
                   allowBlank
                   label="Make"
                   source={MAKE_OPTIONS}
-                  onChange={make => this.setMake(make)}
+                  onChange={this.setMake}
                   value={vehicle.make}
                 />
                 <Dropdown
                   allowBlank
                   label="Model"
                   source={modelSource}
-                  onChange={model => this.setModel(model)}
+                  onChange={this.setModel}
                   value={vehicle.model}
                 />
                 <Dropdown

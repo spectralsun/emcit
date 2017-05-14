@@ -3,8 +3,8 @@ from flask import request, jsonify, Blueprint
 from flask_login import current_user
 from emcit.models import User
 from emcit.resources import UserAdministrationResource
-from emcit.util import required_access, api_error, validate
-from emcit.schemas import user_schema
+from emcit.util import required_access, api_error, form_error, validate
+from emcit.schemas import user_schema, update_user_schema
 
 user_api = Blueprint('user_api', __name__)
 
@@ -25,43 +25,49 @@ def get_user(user_id):
 @required_access('admin')
 @validate(user_schema)
 def create_user():
-    user = User.from_json(request.get_json())
+    data = request.get_json()
+    if User.get_by_email(data.get('email')):
+        return api_error(dict(email=['Email already exists']))
+    user = User.from_json(data)
     user.save()
     return jsonify(UserAdministrationResource(user))
 
 
 @user_api.route('/<int:user_id>', methods=['PUT'])
 @required_access('admin')
-@validate(user_schema)
+@validate(update_user_schema)
 def update_user(user_id):
     user = User.get_by_id(user_id)
 
     if not user:
-        return api_error('User not found', 404)
+        return form_error('User not found')
 
-    json = request.get_json()
+    data = request.get_json()
 
-    if 'password' in request.json and len(request.json['password']) > 0:
-        user.set_password(json.get('password'))
+    if data['email'] != user.email and User.get_by_email(data['email']):
+        return api_error(dict(email=['Email already in use']))
 
-    user.name = json.get('name')
-    user.email = json.get('email')
-    user.phone_number = json.get('phone_number')
-    user.role = json.get('role')
+    if 'password' in data and len(data['password']) > 0:
+        user.set_password(data.get('password'))
+
+    user.name = data['name']
+    user.email = data['email']
+    user.phone_number = data['phone_number']
+    user.role = data['role']
     user.save()
 
     return jsonify(UserAdministrationResource(user))
 
 
-@user_api.route('/<int:id>', methods=['DELETE'])
+@user_api.route('/<int:user_id>', methods=['DELETE'])
 @required_access('admin')
-def delete_user(id):
-    user = User.get(id)
+def delete_user(user_id):
+    user = User.get(user_id)
 
     if not user:
-        return api_error('User not found', 404)
+        return form_error('User not found')
     if user.id == current_user.id:
-        return api_error('Cannot delete self', 404)
+        return form_error('Cannot delete self')
 
     user.delete()
 

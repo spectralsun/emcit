@@ -11,7 +11,7 @@ from emcit.api import (
     analytics_api
 )
 from emcit.models import User
-from emcit.resources import AccountResource
+from emcit.resources import CurrentUserResource
 
 app = Flask(__name__)
 
@@ -43,13 +43,7 @@ def shutdown_session(response):
 @app.route('/')
 @app.route('/<path:path>')
 def index(path=None):
-    user = AccountResource(current_user) if current_user.is_authenticated else None
-    state = json.dumps(dict(
-        account=dict(
-            user=user,
-            loginError=dict()
-        )
-    ))
+    state = json.dumps(dict(currentUser=CurrentUserResource(current_user)))
     if urlparse(request.url).hostname[:6] == 'mobile':
         return render_template('mobile.html', state=state)
     else:

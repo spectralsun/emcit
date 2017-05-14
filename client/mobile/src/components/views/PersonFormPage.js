@@ -9,7 +9,7 @@ import {
     HAIR_COLOR_OPTIONS, EYE_COLOR_OPTIONS
 } from 'common/consts/personOptions';
 import { PageContainer } from 'c/chrome';
-import { setPersonValue } from 'actions';
+import { setPersonValue, removePerson } from 'actions';
 import { SaveButtonBar } from 'form';
 
 
@@ -22,8 +22,13 @@ class PersonFormPage extends Component {
 
     handleSave = () => this.props.router.push('/');
 
+    handleDelete = () => {
+        this.props.removePerson(this.props.id);
+        this.props.router.push('/')
+    }
+
     setValue(key, value) {
-        const { id } = this.props.params;
+        const { id } = this.props;
         this.props.setPersonValue({ id, key, value });
     }
 
@@ -34,7 +39,7 @@ class PersonFormPage extends Component {
         }
         return (
             <PageContainer>
-                <SaveButtonBar onSave={this.handleSave} />
+                <SaveButtonBar onDelete={this.handleDelete} onSave={this.handleSave} />
                 <Input
                     label='Name'
                     onChange={v => this.setValue('name', v)}
@@ -99,8 +104,9 @@ class PersonFormPage extends Component {
 }
 
 const mapStateToProps = ({ report: { people } }, { params: { id } }) =>
-    ({ person: people.find(p => p.id === id) });
+    ({ person: people.find(p => p.id === id), id });
 
 export default connect(mapStateToProps, {
+    removePerson,
     setPersonValue
 })(withRouter(PersonFormPage))

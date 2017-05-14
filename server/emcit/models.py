@@ -93,13 +93,13 @@ class User(Model):
         return cls.query.get(id)
 
     @staticmethod
-    def from_json(json):
+    def from_json(data):
         return User(
-            json.get('name'),
-            json.get('email'),
-            json.get('password'),
-            json.get('phone_number'),
-            json.get('role')
+            data['name'],
+            data['email'],
+            data['password'],
+            data['phone_number'],
+            data['role']
         )
 
     def __repr__(self):
@@ -274,7 +274,6 @@ class Report(Model):
                 query = query.join(entity)
 
             for key, value in f.get('values').items():
-                print key, len(value), type(value)
                 if isinstance(value, basestring) and len(value) == 0:
                     continue
                 query = query.filter(getattr(entity, key) == value)

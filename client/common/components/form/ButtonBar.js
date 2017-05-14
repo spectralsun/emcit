@@ -11,7 +11,7 @@ const ButtonBar = ({ className, children }) => (
 )
 
 ButtonBar.left = ({ children }) => (
-    <div>{children}</div>
+    <div className={classes.left}>{children}</div>
 )
 
 ButtonBar.right = ({ children }) => (

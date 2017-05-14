@@ -27,7 +27,11 @@ const config = {
                 loader: __dirname + '/../node_modules/babel-loader',
                 query: {
                     presets: ['react', 'es2015'],
-                    plugins: ['transform-class-properties']
+                    plugins: [
+                        'transform-class-properties',
+                        'transform-object-rest-spread',
+                        'transform-export-extensions'
+                    ]
                 }
             },
             {
