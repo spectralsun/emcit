@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emerald Citizen (reporting)</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDp63Wn_B-idvgOa7YzFztzuUtgQbX8Ok4&libraries=places"></script>
+
+    <link href="/static/leaflet/leaflet.css" rel="stylesheet" />
+    <link href="/static/material-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Oxygen', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="entry"></div>
+    <script src="/static/leaflet/leaflet.js"></script>
+    <script>var INITIAL_STATE = {{ state|safe }};</script>
+    <script src="/static/mobile.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+.baseFilter {
+    padding-top: 10px;
+}
+
+.title {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    text-align: center;
+    font-size: 23px;
+}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, TableHead, TableRow, TableCell } from 'react-toolbox';
-import { getUsers } from 'api';
 import { Link } from 'react-router'
+import { Table, TableHead, TableRow, TableCell } from 'react-toolbox';
+
+import { getUsers } from 'api';
 
 class UserListPage extends React.Component {
 
     componentDidMount() {
         this.props.getUsers()
-
     }
 
     render() {
@@ -20,7 +20,7 @@ class UserListPage extends React.Component {
                     <TableCell>Email</TableCell>
                     <TableCell>Phone</TableCell>
                 </TableHead>
-                {this.props.list.map((user, idx) => (
+                {this.props.users.map((user, idx) => (
                     <TableRow key={idx}>
                         <TableCell><Link to={`/users/${user.id}`}>{user.name}</Link></TableCell>
                         <TableCell>{user.role}</TableCell>
@@ -33,7 +33,8 @@ class UserListPage extends React.Component {
     }
 }
 
-const mapStateToProps = ({ users: { list } }) => ({ list });
-const mapDispatchToProps = { getUsers };
+const mapStateToProps = ({ users }) => ({ users });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserListPage);
+export default connect(mapStateToProps, {
+    getUsers
+})(UserListPage);

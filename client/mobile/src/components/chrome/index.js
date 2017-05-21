@@ -1,1 +1,2 @@
-export { default as default } from './Chrome.js'
+export default from './Chrome.js'
+export PageContainer from './PageContainer'

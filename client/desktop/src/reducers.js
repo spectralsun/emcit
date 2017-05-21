@@ -2,36 +2,40 @@ import Immutable from 'seamless-immutable'
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux';
 
-import { account } from 'common/reducers'
-import { createReducer } from 'common/util'
-import { loadedReports, addFilter, removeFilter, loadedUsers, loadedUser } from 'actions'
+import { currentUser } from 'common/reducers'
+import {
+    createReducer,
+    createRequestReducer,
+    requestReducer as request
+} from 'common/util'
+import { addFilter, removeFilter } from 'actions';
 
-const reports = createReducer({
-    [loadedReports]: (state, list) => state.merge({ list })
-}, Immutable({
-    list: []
-}))
+import { getReports, getUser, getUsers } from 'api';
+
+const reports = createRequestReducer(getReports, {
+    end: ({ data }) => Immutable(data)
+}, Immutable([]));
 
 const filters = createReducer({
     [addFilter]: (state, filter) => state.concat(filter),
     [removeFilter]: (state, filter) => state.filter(f => f !== filter)
 }, [])
 
-const users = createReducer({
-    [loadedUsers]: (state, list) => state.merge({ list }),
-}, Immutable({
-    list: []
-}))
+const users = createRequestReducer(getUsers, {
+    end: ({ data }) => Immutable(data)
+}, Immutable([]));
 
-const user = createReducer({
-    [loadedUser]: (state, u) => u,
-}, null);
+const user = createRequestReducer(getUser, {
+    start: null,
+    end: ({ data }) => Immutable(data)
+}, Immutable(null));
 
 export default combineReducers({
     routing,
 
     // common reducers
-    account,
+    currentUser,
+    request,
 
     // desktop reducers
     reports,

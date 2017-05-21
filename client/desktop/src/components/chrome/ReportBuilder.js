@@ -6,29 +6,20 @@ import Dropdown from 'react-toolbox/lib/dropdown';
 import Chip from 'react-toolbox/lib/chip';
 import cx from 'classnames'
 
-import CarForm from 'common/components/form/CarForm';
-import { PersonForm } from 'common/components/form/PersonForm';
-import classes from './ReportBuilder.css'
-
-import { getReports } from 'api'
+import { VehicleFilter, PersonFilter } from 'c/filters';
+import { getReports } from 'api';
+import { capitalize } from 'common/util';
 import { addFilter, removeFilter } from 'actions'
 
+import classes from './ReportBuilder.css'
 
-
-function capitalize(str) {
-    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
-}
 const CHIP_BAR_HEIGHT = 42;
 
 class ReportBuilder extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            filterForm: null,
-            filters: [],
-            offsetView: 0
-        }
+    state = {
+        filterForm: null,
+        filters: [],
+        offsetView: 0
     }
 
     componentWillMount() {
@@ -46,64 +37,49 @@ class ReportBuilder extends React.Component {
     }
 
     getReports() {
-        this.props.getReports(this.state.filters.map(f => {
-            const filter = {entity: f.type, values:{}}
-            const filterSchema = data =>
-                Object.keys(data).forEach(key => {
-                    if (data[key] && key !== 'type') {
-                        filter.values[key] = data[key]
-                    }
-                })
-            filterSchema(f);
-            return filter;
-        }))
+        const data = this.state.filters;
+        this.props.getReports({ data });
     }
 
-    handleFilterSubmit(filter) {
-        const filters = this.state.filters.concat(filter)
+    handleFilterSubmit = (entity, values) => {
+        const filters = this.state.filters.concat({ entity, values })
         this.setState({ filterForm: null, filters }, this.getReports);
     }
 
-    handleDeleteFilter(filter) {
+    handleDeleteFilter = filter => {
         const filters = this.state.filters.filter(f => f !== filter);
         this.setState({ filters }, this.getReports)
     }
 
-    setFormData(key, value) {
-        const { filterFormData } = this.state;
-        filterFormData[key] = value;
-        this.setState({ filterFormData });
+    getChipText = ({ entity, values }) => this.formatters[entity](values);
+
+    formatters = {
+        vehicle: ({ make, model, color, license_plate }) =>
+            [color, make, model]
+            .filter(v => v)
+            .map(capitalize)
+            .concat(license_plate && license_plate.toUpperCase())
+            .filter(v => v)
+            .join(' '),
+        person: ({ category, sex, hair_color, eye_color }) => [
+            category && category.split('_').map(capitalize).join(' ') + ': ',
+            hair_color && hair_color + ' hair',
+            eye_color && eye_color + ' eyes'
+        ].filter(v => v).map(capitalize).join(' ')
     }
 
-    getChipText(filter) {
-        const formatters = {
-            vehicle: ({ make, model, color, license_plate }) =>
-                [color, make, model].filter(v => !!v).map(capitalize).concat(license_plate ? license_plate.toUpperCase() : []).join(' '),
-            person: ({ category, sex, hair_color, eye_color }) => {
-                let cat = category ? category.split('_').map(capitalize).join(' ') + ': ' : null;
-                let hair = hair ? hair_color + ' hair' : ''
-                let eyes = eye_color ? eye_color + ' eyes' : ''
-                return [cat, sex, eyes, hair].filter(v => !!v).map(capitalize).join(' ')
-            }
-        }
-        return formatters[filter.type](filter);
-    }
-
-    renderForm() {
-        const forms = {
-            vehicle: (<CarForm onSubmit={this.handleFilterSubmit.bind(this)} />),
-            person: <PersonForm onSubmit={this.handleFilterSubmit.bind(this)} filterForm />
-        }
-        const titles = {
-            vehicle: 'Add Vehicle',
-            person: 'Add Person'
-        }
-        return (
-            <div className={classes.filterForm}>
-                <Button label='Cancel' accent raised onClick={e => this.setState({ filterForm: null })} />
-                <h3 className={classes.title}>{titles[this.state.filterForm]} Filter</h3>
-                {forms[this.state.filterForm]}
-            </div>
+    filterForms = {
+        vehicle: (
+            <VehicleFilter
+              onSubmit={data => this.handleFilterSubmit('vehicle', data)}
+              onCancel={e => this.setState({ filterForm: null })}
+            />
+        ),
+        person: (
+            <PersonFilter
+              onSubmit={data => this.handleFilterSubmit('person', data)}
+              onCancel={e => this.setState({ filterForm: null })}
+            />
         )
     }
 
@@ -117,34 +93,38 @@ class ReportBuilder extends React.Component {
                     {filters.length === 0 &&
                         <div>No Filters Selected</div>
                     }
-                    {filters.map((filter, idx) => (
-                        <Chip className={classes.chip} deletable onDeleteClick={e => this.handleDeleteFilter(filter)}>
+                    {filters.map((filter, key) => (
+                        <Chip
+                          key={key}
+                          className={classes.chip}
+                          deletable
+                          onDeleteClick={e => this.handleDeleteFilter(filter)}
+                        >
                             {this.getChipText(filter)}
                         </Chip>
                     ))}
                 </div>
                 <div className={classes.filters}>
-                    { !filterForm &&
+                    {!filterForm &&
                         <div>
                             <h3 className={classes.title}>Filter Reports</h3>
                             <div className={classes.addFilterButton}>
                                 <Button
                                   label='Add Vehicle'
-                                  raised
-                                  primary
-                                  onClick={e => this.setState({ filterForm: 'vehicle' }) } />
+                                  raised primary
+                                  onClick={e => this.setState({ filterForm: 'vehicle' }) }
+                                />
                             </div>
                             <div className={classes.addFilterButton}>
                                 <Button
                                   label='Add Person'
                                   raised primary
-                                  onClick={e => this.setState({ filterForm: 'person' }) } />
+                                  onClick={e => this.setState({ filterForm: 'person' }) }
+                                />
                             </div>
                         </div>
                     }
-                    { filterForm &&
-                        this.renderForm()
-                    }
+                    {filterForm && this.filterForms[filterForm]}
                 </div>
                 <div className={classes.reportView} style={viewStyle}>
                     {this.props.children}

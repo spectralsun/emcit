@@ -3,6 +3,7 @@ const ConsoleNotifierPlugin = function () {}
 ConsoleNotifierPlugin.prototype.compilationDone = (stats) => {
   const log = (error) => {
     console.log(error.error && error.error.toString())
+    error.module.fileDependencies.map(d => console.log(d))
   }
   stats.compilation.errors.forEach(log)
 }
@@ -16,7 +17,7 @@ const config = {
         __dirname + '/src/entry.js'
     ],
     output: {
-        path: __dirname + '/../../emcit/static',
+        path: __dirname + '/../../server/emcit/static',
         filename: 'mobile.js'
     },
 	module: {
@@ -26,7 +27,12 @@ const config = {
                 exclude: /node_modules/,
                 loader: __dirname + '/../node_modules/babel-loader',
                 query: {
-                    presets: ['react', 'latest']
+                    presets: ['react', 'latest'],
+                    plugins: [
+                        'transform-class-properties',
+                        'transform-object-rest-spread',
+                        'transform-export-extensions'
+                    ]
                 }
             },
             {
@@ -43,10 +49,13 @@ const config = {
     resolve: {
         alias: {
             common: __dirname + '/../common',
+            common_form: __dirname + '/../common/components/form',
+            common_views: __dirname + '/../common/components/views',
             c: __dirname + '/src/components',
             reducers: __dirname + '/src/reducers',
             actions: __dirname + '/src/actions',
-            api: __dirname + '/src/api'
+            api: __dirname + '/src/api',
+            form: __dirname + '/src/components/form'
         },
         extensions: ['', '.js', '.jsx', '.css'],
         modulesDirectories: [

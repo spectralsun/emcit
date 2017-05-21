@@ -1,0 +1,23 @@
+.reportForm {
+    h1 {
+        letter-spacing: 3px;
+        color: #394648;
+        span {
+            font-size: 1.5em;
+            margin-right: 5px;
+            bottom: -.2em;
+            position: relative;
+        }
+    }
+
+    textarea {
+        min-height: 48px;
+        padding-right: 5px;
+        resize: vertical;
+        font-family: 'Oxygen', sans-serif;
+    }
+
+    .submitButton {
+        float: right;
+    }
+}

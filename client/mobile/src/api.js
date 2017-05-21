@@ -1,5 +1,5 @@
-import { request } from 'common/util'
+import { createApi } from 'common/util'
 
-import { createReport as createReportAction } from 'actions'
+const api = createApi('/api/v1');
 
-export const createReport = report => dispatch => request.post('/api/v1/report', report).then(res => dispatch(createReportAction(res.data)));
+export const createReport = api.post('/report');

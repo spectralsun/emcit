@@ -8,12 +8,14 @@ import './main.css';
 
 import configureRoutes from './routes'
 import configureStore from './store'
+import Geo from './geo'
 
-const state = {
-    account: Immutable(INITIAL_STATE.account)
-}
 
-const store = configureStore(state);
+const store = configureStore({
+    currentUser: Immutable(INITIAL_STATE.currentUser)
+});
+
+const geo = new Geo(store);
 
 const routes = configureRoutes(store)
 
@@ -23,4 +25,4 @@ render(
     <Provider store={store}>
         <Router history={history} routes={routes} />
     </Provider>
-,document.getElementById('entry'));
+, document.getElementById('entry'));
