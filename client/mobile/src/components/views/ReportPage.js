@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Button from "react-toolbox/lib/button";
 
-import { checkRequest } from 'common/util';
+import { withRequests } from 'common/util';
 import { PageContainer } from 'c/chrome';
 import { ReportForm } from 'c/report';
 import { createReport } from 'api';
@@ -10,19 +10,21 @@ import { resetReport } from 'actions';
 import classes from './ReportPage.css';
 
 
-class ReportPage extends Component {
+@withRequests
+@connect(({ report, geo }) => ({ report, geo }), { createReport, resetReport })
+export default class ReportPage extends Component {
     state = {
         success: false,
         sending: false,
         error: ''
     };
 
-    componentWillReceiveProps({ request }) {
-        checkRequest(this.props.request, request, createReport, {
+    componentWillMount() {
+        this.props.observeRequest(createReport, {
             start: () => this.setState({ sending: true }),
             end: () => this.setState({ success: true }),
             finally: () => this.setState({ sending: false })
-        })
+        });
     }
 
     handleFormSubmit = e => {
@@ -63,7 +65,3 @@ class ReportPage extends Component {
         )
     }
 }
-
-const mapStateToProps = ({ report, request, geo }) => ({ report, request, geo });
-
-export default connect(mapStateToProps, { createReport, resetReport })(ReportPage);

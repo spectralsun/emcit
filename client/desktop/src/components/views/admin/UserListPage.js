@@ -5,7 +5,9 @@ import { Table, TableHead, TableRow, TableCell } from 'react-toolbox';
 
 import { getUsers } from 'api';
 
-class UserListPage extends React.Component {
+
+@connect(({ users }) => ({ users }), { getUsers })
+export default class UserListPage extends React.Component {
 
     componentDidMount() {
         this.props.getUsers()
@@ -32,9 +34,3 @@ class UserListPage extends React.Component {
         );
     }
 }
-
-const mapStateToProps = ({ users }) => ({ users });
-
-export default connect(mapStateToProps, {
-    getUsers
-})(UserListPage);

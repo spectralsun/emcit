@@ -5,7 +5,9 @@ import cx from 'classnames'
 import Navbar from './Navbar';
 import classes from './Chrome.css'
 
-class Chrome extends React.Component {
+
+@connect(({ currentUser, routing }) => ({ currentUser, routing }))
+export default class Chrome extends React.Component {
 
     render() {
         const { currentUser, children } = this.props;
@@ -20,7 +22,3 @@ class Chrome extends React.Component {
         )
     }
 }
-
-const mapStateToProps = ({ currentUser, routing }) => ({ currentUser, routing });
-
-export default connect(mapStateToProps, {})(Chrome);

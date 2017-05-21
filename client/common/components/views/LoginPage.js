@@ -6,20 +6,23 @@ import Button from 'react-toolbox/lib/button';
 
 import { Form, FormErrors } from '../form';
 import { loginUser } from 'common/api';
-import { checkRequest } from 'common/util';
+import { withRequests } from 'common/util';
 
 import classes from './LoginPage.css'
 
 
-class LoginPage extends React.Component {
+@withRouter
+@withRequests
+@connect(null, { loginUser })
+export default class LoginPage extends React.Component {
     state = {
         email: '',
         password: '',
         error: {}
     };
 
-    componentWillReceiveProps({ request }) {
-        checkRequest(this.props.request, request, loginUser, {
+    componentWillMount() {
+        this.props.observeRequest(loginUser, {
             end: () => this.props.router.push('/'),
             error: error => this.setState({ error })
         });
@@ -60,9 +63,3 @@ class LoginPage extends React.Component {
         );
     }
 }
-
-const mapStateToProps = ({ request }) => ({ request });
-
-export default connect(mapStateToProps, {
-    loginUser
-})(withRouter(LoginPage));

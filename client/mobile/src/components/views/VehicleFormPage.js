@@ -8,7 +8,12 @@ import { SaveButtonBar } from 'form';
 import { setVehicleValue, removeVehicle } from 'actions';
 
 
-class VehicleFormPage extends React.Component {
+@withRouter
+@connect(
+    ({ report: { vehicles }}, { params: { id } }) => ({ vehicle: vehicles.find(v => v.id === id) }),
+    { removeVehicle, setVehicleValue }
+)
+export default class VehicleFormPage extends React.Component {
     componentWillMount() {
         if (!this.props.vehicle) {
             this.props.router.push('/');
@@ -44,11 +49,3 @@ class VehicleFormPage extends React.Component {
         )
     }
 }
-
-const mapStateToProps = ({ report: { vehicles }}, { params: { id } }) =>
-    ({ vehicle: vehicles.find(v => v.id === id) });
-
-export default connect(mapStateToProps, {
-    removeVehicle,
-    setVehicleValue
-})(withRouter(VehicleFormPage));

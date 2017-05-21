@@ -13,9 +13,11 @@ import { addFilter, removeFilter } from 'actions'
 
 import classes from './ReportBuilder.css'
 
+
 const CHIP_BAR_HEIGHT = 42;
 
-class ReportBuilder extends React.Component {
+@connect(({ filters }) => ({ filters }), { getReports })
+export default class ReportBuilder extends React.Component {
     state = {
         filterForm: null,
         filters: [],
@@ -133,9 +135,3 @@ class ReportBuilder extends React.Component {
         )
     }
 }
-
-const mapStateToProps = ({ filters }) => ({ filters });
-
-export default connect(mapStateToProps, {
-    getReports,
-})(ReportBuilder);

@@ -6,7 +6,9 @@ import { Map, TileLayer } from 'react-leaflet';
 import { ReportMarker } from 'map';
 import classes from './ReportMapPage.css';
 
-class ReportMapPage extends React.Component {
+
+@connect(({ reports }) => ({ reports }))
+export default class ReportMapPage extends React.Component {
     state = {
         center: [45.11326925230233, -122.46597290039064]
     }
@@ -26,8 +28,3 @@ class ReportMapPage extends React.Component {
         )
     }
 }
-
-const mapStateToProps = ({ reports }) => ({ reports });
-
-export default connect(mapStateToProps, {
-})(ReportMapPage);

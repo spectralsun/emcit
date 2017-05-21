@@ -20,7 +20,12 @@ const peopleNameMap = {
     victim: 'Victim'
 }
 
-class ReportForm extends Component {
+@withRouter
+@connect(
+    ({ counter, report }) => ({ counter, report }),
+    { addPerson, addVehicle, incrementCount, setReportValue })
+)
+export default class ReportForm extends Component {
     getChipCount(type) {
         this.props.incrementCount(type);
         return this.props.counter[type] + 1;
@@ -128,12 +133,3 @@ class ReportForm extends Component {
         );
     }
 }
-
-const mapStateToProps = ({ counter, report }) => ({ counter, report });
-
-export default connect(mapStateToProps, {
-    addPerson,
-    addVehicle,
-    incrementCount,
-    setReportValue
-})(withRouter(ReportForm));

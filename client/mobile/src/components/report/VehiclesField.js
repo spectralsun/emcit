@@ -8,6 +8,11 @@ import { capitalize } from 'common/util';
 import { incrementCount, addVehicle } from 'actions';
 
 
+@withRouter
+@connect(
+    ({ counter, report: vehicles }) => ({ counter: counter.vehicles, vehicles }),
+    { incrementCount, addVehicle }
+)
 class VehiclesField extends React.Component {
     getVehicleTitle = vehicle =>
         [vehicle.color, vehicle.make, vehicle.model].filter(v => v).map(capitalize).join(' ');
@@ -52,11 +57,3 @@ class VehiclesField extends React.Component {
         )
     }
 }
-
-const mapStateToProps = ({ counter, report: vehicles }) =>
-    ({ counter: counter.vehicles, vehicles });
-
-export default connect(mapStateToProps, {
-    incrementCount,
-    addVehicle
-})(withRouter(VehiclesField));

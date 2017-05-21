@@ -10,7 +10,7 @@ import FormErrors from 'common/components/form/FormErrors';
 import { user_roles } from 'common/consts';
 import { Form } from 'common_form';
 import { getUser, createUser, updateUser } from 'api';
-import { checkRequest } from 'common/util';
+import { observeRequest } from 'common/util';
 
 import classes from './UserFormPage.css';
 
@@ -37,7 +37,7 @@ class UserFormPage extends React.Component {
             const { name, email, phone_number, role } = user;
             this.setState({ name, email, phone_number, role });
         }
-        checkRequest(this.props.request, request, [createUser, updateUser], {
+        this.props.observeRequest([createUser, updateUser], {
             end: () => this.props.router.push('/users'),
             error: error => this.setState({ error })
         });
