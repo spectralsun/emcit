@@ -32,7 +32,8 @@ person_schema = {
     'hair_length': {'type': 'string'},
     'eye_color': {'type': 'string'},
     'skin': {'type': 'string'},
-    'sex': {'type': 'string'}
+    'sex': {'type': 'string'},
+    'details': {'type': 'string'}
 }
 
 base_report_schema = {

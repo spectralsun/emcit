@@ -121,7 +121,8 @@ class Person(Model):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated = Column(DateTime, default=datetime.utcnow)
     name = Column(String(255), nullable=True)
-    category = Column(Enum('suspicious_person', 'victim', 'buyer', name='person_type'), default=None, nullable=False)
+    category = Column(Enum('suspicious_person', 'victim', 'buyer',
+        name='person_type'), default=None, nullable=False)
     height = Column(String(255), nullable=True)
     weight = Column(String(255), nullable=True)
     hair_color = Column(String(255), nullable=True)
@@ -129,8 +130,10 @@ class Person(Model):
     eye_color = Column(String(255), nullable=True)
     skin = Column(String(255), nullable=True)
     sex = Column(String(255), nullable=True)
+    details = Column(Text, nullable=True)
 
-    def __init__(self, report_id, name, category, height, weight, hair_color, hair_length, eye_color, skin, sex):
+    def __init__(self, report_id, name, category, height, weight, hair_color,
+            hair_length, eye_color, skin, sex, details):
         self.report_id = report_id
         self.name = name
         self.category = category
@@ -141,6 +144,7 @@ class Person(Model):
         self.eye_color = eye_color
         self.skin = skin
         self.sex = sex
+        self.details = details
 
     @property
     def is_suspicious(self):
@@ -166,7 +170,8 @@ class Person(Model):
             json.get('hair_length'),
             json.get('eye_color'),
             json.get('skin'),
-            json.get('sex')
+            json.get('sex'),
+            json.get('details')
         )
 
     def __repr__(self):

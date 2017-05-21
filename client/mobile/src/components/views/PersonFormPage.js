@@ -98,9 +98,10 @@ export default class PersonFormPage extends Component {
                     value={person.eye_color}
                 />
                 <Input
-                    label='Noticeable Characteristics / other'
-                    onChange={v => this.setValue('color', v)}
-                    value={person.color}
+                    multiline
+                    label='Noticeable Characteristics / Other Details'
+                    onChange={v => this.setValue('details', v)}
+                    value={person.details}
                 />
                 <SaveButtonBar onSave={this.handleSave} />
             </PageContainer>
