@@ -1,10 +1,10 @@
 export const COLOR_OPTIONS = [
-    { value: 'blue', label: 'Blue' },
-    { value: 'red', label: 'Red' },
-    { value: 'yellow', label: 'Yellow'}
+    {value: 'blue', label: 'Blue'},
+    {value: 'red', label: 'Red'},
+    {value: 'yellow', label: 'Yellow'}
 ]
 
-export const MODEL_OPTIONS = {
+export const MODEL_OPTIONS = Object.entries({
     "Chrysler": [
         "300",
         "pt cruiser",
@@ -430,10 +430,16 @@ export const MODEL_OPTIONS = {
         "freelander",
         "defender"
     ]
-}
+}).reduce(
+    (obj, [make, models]) => {
+        obj[make] = models.map(model => ({label: model, value: model}));
+        return obj;
+    },
+    {}
+)
 
 export const MAKE_OPTIONS = Object.keys(MODEL_OPTIONS).sort()
 
-export const ALL_MODEL_OPTIONS = Object.entries(MODEL_OPTIONS)
-    .reduce((options, [make, models]) => options.concat(models), [])
+export const ALL_MODEL_OPTIONS = Object.keys(MODEL_OPTIONS)
+    .reduce((arr, make) => arr.concat(MODEL_OPTIONS[make].map(model => Object.assign({}, model, {make}))), [])
     .sort()
