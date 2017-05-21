@@ -83,6 +83,7 @@ export const HAIR_COLOR_OPTIONS = [
     { value: 'red', label: 'Red' },
     { value: 'black', label: 'Black' },
     { value: 'gray', label: 'Gray / White' },
+    { value: 'unnatural', label: 'Unnatural (please describe in other section)' },
 ];
 
 export const EYE_COLOR_OPTIONS = [

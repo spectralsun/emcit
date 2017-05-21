@@ -59,6 +59,8 @@ export default class ReportForm extends Component {
         return (
             <Form onSubmit={onSubmit} className={classes.reportForm}>
                 <h1><FontIcon value='note_add' /> Incident Report</h1>
+                <h5>If you are witnessing an emergency situation, <br />
+                    please <a href="tel:911">call 911</a> immediately</h5>
                 <FormErrors errors={errors} />
                 <DatePicker
                   label='Date of Incidence'

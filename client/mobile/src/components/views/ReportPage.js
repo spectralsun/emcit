@@ -45,7 +45,7 @@ export default class ReportPage extends Component {
             return (
                 <PageContainer className={classes.thanksPage}>
                     <h1>Thanks for submitting a report</h1>
-                    <p>Every bit of information helps free sex trafficing victims.</p>
+                    <p>Every bit of information helps free sex trafficking victims.</p>
                     <Button
                       primary
                       raised

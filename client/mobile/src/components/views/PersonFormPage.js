@@ -64,6 +64,11 @@ export default class PersonFormPage extends Component {
                     source={SEX_OPTIONS}
                     value={person.sex}
                 />
+                <Input
+                    label='Observed Race'
+                    value={person.skin}
+                    onChange={v => this.setValue('skin', v)}
+                />
                 <Dropdown
                     auto
                     onChange={v => this.setValue('height', v)}
