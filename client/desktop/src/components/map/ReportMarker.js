@@ -1,6 +1,9 @@
 import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
 
+// something about Link can't be used outside of router context? using <a> tag instead.
+// import { Link } from 'react-router';
+
 import { capitalize } from 'common/util';
 import { Person, Vehicle } from 'c/report';
 import classes from './ReportMarker.css';
@@ -11,6 +14,7 @@ const filterBuyer = ({ category }) => category === 'buyer';
 const filterVictim = ({ category }) => category === 'victim';
 
 export default /* ReportMarker */ ({
+    id,
     lat, lng,
     date,
     location,
@@ -22,7 +26,7 @@ export default /* ReportMarker */ ({
     <Marker position={[lat, lng]}>
         <Popup>
             <div>
-                <div>{date}</div>
+                <div><a href={`/reports/details/${id}`}>{date}</a></div>
                 {location && <div>{location}</div>}
                 {room_number && <div>Room number: {room_number}</div>}
                 {details && <div>{details}</div>}

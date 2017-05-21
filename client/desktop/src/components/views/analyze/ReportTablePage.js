@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox';
+import { Link } from 'react-router';
 
 import { capitalize } from 'common/util';
 import { Person, Vehicle } from 'c/report';
@@ -19,9 +20,9 @@ export default class ReportTablePage extends React.Component {
                 <TableCell>Location</TableCell>
                 <TableCell>Room Number</TableCell>
             </TableHead>
-            {this.props.list.map(({ date, vehicles, people, location, room_number }, idx) => (
+            {this.props.list.map(({ id, date, vehicles, people, location, room_number }, idx) => (
                 <TableRow key={idx}>
-                    <TableCell>{date}</TableCell>
+                    <TableCell><Link to={`/reports/details/${id}`}>{date}</Link></TableCell>
                     <TableCell>
                         {vehicles.map((vehicle, key) =>
                             <Vehicle key={key} {...vehicle} />

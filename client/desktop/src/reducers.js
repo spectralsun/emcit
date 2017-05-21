@@ -10,11 +10,15 @@ import {
 } from 'common/util'
 import { addFilter, removeFilter } from 'actions';
 
-import { getReports, getUser, getUsers } from 'api';
+import { getReports, getReport, getUser, getUsers } from 'api';
 
 const reports = createRequestReducer(getReports, {
     end: ({ data }) => Immutable(data)
 }, Immutable([]));
+
+const reportDetails = createRequestReducer(getReport, {
+    end: ({ data }) => Immutable(data)
+}, Immutable(null));
 
 const filters = createReducer({
     [addFilter]: (state, filter) => state.concat(filter),
@@ -39,6 +43,7 @@ export default combineReducers({
 
     // desktop reducers
     reports,
+    reportDetails,
     filters,
     users,
     user

@@ -6,6 +6,7 @@ import { makeCatchAllRoute, configureRoutes } from 'common/util';
 
 import Chrome from 'c/chrome';
 import ReportTablePage from 'c/views/analyze/ReportTablePage'
+import ReportDetailsPage from 'c/views/analyze/ReportDetailsPage'
 import ReportMapPage from 'c/views/analyze/ReportMapPage'
 import ReportBuilder from 'c/chrome/ReportBuilder'
 import UserListPage from 'c/views/admin/UserListPage'
@@ -33,6 +34,7 @@ const reportRoutes = {
 }
 
 const analystRoutes = [
+    { path: '/reports/details/:id', component: ReportDetailsPage },
     reportRoutes,
     makeCatchAllRoute('/reports/table')
 ]

@@ -15,6 +15,11 @@ report_api = Blueprint('report_api', __name__)
 def get_reports():
     return jsonify(map(ReportResource, Report.get_all()))
 
+@report_api.route('/<int:id>', methods=['GET'])
+@required_access('admin', 'analyst')
+def get_report(id):
+    return jsonify(ReportResource(Report.get(id)))
+
 
 @report_api.route('', methods=['POST'])
 @required_access('admin', 'analyst', 'reporter')
