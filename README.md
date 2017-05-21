@@ -21,7 +21,7 @@ See `requirements.txt` from python dependencies
 This was written last minute, and may be incomplete.
 
 - `virtualenv venv`
-- `source venv/bin/active`
+- `source venv/bin/activate`
 - `pip install -r requirements.txt`
 - `cd client`
 - `npm install`
