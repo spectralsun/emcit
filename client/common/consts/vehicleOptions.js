@@ -432,14 +432,20 @@ export const MODEL_OPTIONS = Object.entries({
     ]
 }).reduce(
     (obj, [make, models]) => {
-        obj[make] = models.map(model => ({label: model, value: model}));
+        obj[make] = models.sort().map(model => ({label: model, value: model}));
         return obj;
     },
     {}
 )
 
-export const MAKE_OPTIONS = Object.keys(MODEL_OPTIONS).sort()
+export const MAKE_OPTIONS = Object.keys(MODEL_OPTIONS)
+    .sort()
+    .map(model => ({label: model, value: model}))
 
 export const ALL_MODEL_OPTIONS = Object.keys(MODEL_OPTIONS)
     .reduce((arr, make) => arr.concat(MODEL_OPTIONS[make].map(model => Object.assign({}, model, {make}))), [])
-    .sort()
+    .sort((a, b) => {
+        if(a.value < b.value) return -1;
+        if(a.value > b.value) return 1;
+        return 0;
+    })
