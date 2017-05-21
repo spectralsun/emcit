@@ -14,7 +14,12 @@ import { getCurrentPosition, getAddressPosition, setPosition, setGeoSearch } fro
 
 import classes from './GeoLocation.css';
 
-class GeoLocation extends React.Component {
+
+@connect(
+    ({ geo }) => ({ geo }),
+    { getCurrentPosition, getAddressPosition, setPosition, setGeoSearch }
+)
+export default class GeoLocation extends React.Component {
     handlePlacesSelect = address => this.props.getAddressPosition(address);
 
     handleChange = address => this.setState({ address, error: null })
@@ -101,10 +106,3 @@ class GeoLocation extends React.Component {
         )
     }
 }
-
-export default connect(({ geo }) => ({ geo }), {
-    getCurrentPosition,
-    getAddressPosition,
-    setPosition,
-    setGeoSearch
-})(GeoLocation);

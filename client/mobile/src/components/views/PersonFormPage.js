@@ -13,7 +13,12 @@ import { setPersonValue, removePerson } from 'actions';
 import { SaveButtonBar } from 'form';
 
 
-class PersonFormPage extends Component {
+@withRouter
+@connect(
+    ({ report: { people } }, { params: { id } }) => ({ person: people.find(p => p.id === id), id }),
+    { removePerson, setPersonValue }
+)
+export default class PersonFormPage extends Component {
     componentWillMount() {
         if (!this.props.person) {
             this.props.router.push('/');
@@ -102,11 +107,3 @@ class PersonFormPage extends Component {
         );
     }
 }
-
-const mapStateToProps = ({ report: { people } }, { params: { id } }) =>
-    ({ person: people.find(p => p.id === id), id });
-
-export default connect(mapStateToProps, {
-    removePerson,
-    setPersonValue
-})(withRouter(PersonFormPage))

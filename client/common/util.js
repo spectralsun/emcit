@@ -1,6 +1,24 @@
 import axios from 'axios';
+import { connect } from 'react-redux';
 import Immutable from 'seamless-immutable';
 
+
+export const withRequests = ComposedComponent => {
+    class RequestObserver extends React.Component {
+        observations= [];
+        componentWillReceiveProps({ request }) {
+            this.observations.forEach(({ match, callbacks }) =>
+                checkRequest(this.props.request, request, match, callbacks));
+        }
+
+        observeRequest = (match, callbacks) => this.observations.push({ match, callbacks });
+
+        render() {
+            return <ComposedComponent observeRequest={this.observeRequest} {...this.props} />;
+        }
+    }
+    return connect(({ request }) => ({ request }))(RequestObserver)
+}
 
 export const checkRequest = (prevRequest, { started, success, data, symbol }, apiMethod, callbacks) => {
     const apiMethods = [].concat(apiMethod).map(({ symbol }) => symbol);

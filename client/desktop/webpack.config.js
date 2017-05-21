@@ -30,7 +30,8 @@ const config = {
                     plugins: [
                         'transform-class-properties',
                         'transform-object-rest-spread',
-                        'transform-export-extensions'
+                        'transform-export-extensions',
+                        'transform-decorators-legacy'
                     ]
                 }
             },
