@@ -2,7 +2,7 @@ import React from 'react';
 
 import { capitalize } from 'common/util';
 
-export default /* Person */ ({ sex, eye_color, hair_length, hair_color, weight }) => {
+export default /* Person */ ({ sex, eye_color, hair_length, hair_color, weight, details }) => {
     const getEyes = () => eye_color && eye_color.replace('_',' ') + ' eyes';
     const getHair = () => ([
         hair_length,
@@ -16,5 +16,10 @@ export default /* Person */ ({ sex, eye_color, hair_length, hair_color, weight }
         ].filter(v => v).join(' with '),
         weight && `weighing ${weight}lbs`,
     ].join(' ');
-    return <div>{person}</div>
+    return (
+        <div>
+            <div>{person}</div>
+            {details && <div>{details}</div>}
+        </div>
+    )
 }
