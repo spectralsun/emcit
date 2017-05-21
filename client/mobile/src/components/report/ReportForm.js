@@ -23,7 +23,7 @@ const peopleNameMap = {
 @withRouter
 @connect(
     ({ counter, report }) => ({ counter, report }),
-    { addPerson, addVehicle, incrementCount, setReportValue })
+    { addPerson, addVehicle, incrementCount, setReportValue }
 )
 export default class ReportForm extends Component {
     getChipCount(type) {
