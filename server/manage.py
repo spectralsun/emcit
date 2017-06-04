@@ -11,13 +11,13 @@ manager = Manager(app)
 @manager.command
 @manager.option('-n', '--name', help='First and/or Last Name')
 @manager.option('-o', '--org', help='User\'s organization')
-@manager.option('-e', '--email', help='Email')
+@manager.option('-e', '--username', help='Username')
 @manager.option('-c', '--number', help='Phone Number')
 @manager.option('-p', '--password', help='Password')
 @manager.option('-r', '--role', help='Set role')
-def create_user(name, org, email, number, password, role):
+def create_user(name, org, username, number, password, role):
     user = models.User(
-        name, org, email, password, number, [], role)
+        name, org, username, password, number, [], role)
     user.save()
 
 

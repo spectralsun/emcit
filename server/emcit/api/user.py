@@ -26,8 +26,8 @@ def get_user(user_id):
 @validate(user_schema)
 def create_user():
     data = request.get_json()
-    if User.get_by_email(data.get('email')):
-        return api_error(dict(email=['Email already exists']))
+    if User.get_by_username(data.get('username')):
+        return api_error(dict(username=['Username already exists']))
     user = User.from_json(data)
     user.save()
     return jsonify(UserAdministrationResource(user))
@@ -44,16 +44,16 @@ def update_user(user_id):
 
     data = request.get_json()
 
-    if data['email'] != user.email and User.get_by_email(data['email']):
-        return api_error(dict(email=['Email already in use']))
+    if data.get('username') != user.username and User.get_by_username(data.get('username')):
+        return api_error(dict(username=['Username already in use']))
 
-    if 'password' in data and len(data['password']) > 0:
+    if 'password' in data and len(data.get('password')) > 0:
         user.set_password(data.get('password'))
 
-    user.name = data['name']
-    user.email = data['email']
-    user.phone_number = data['phone_number']
-    user.role = data['role']
+    user.name = data.get('name')
+    user.username = data.get('username')
+    user.phone_number = data.get('phone_number')
+    user.role = data.get('role')
     user.save()
 
     return jsonify(UserAdministrationResource(user))

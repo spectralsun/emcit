@@ -6,6 +6,7 @@ import Button from 'react-toolbox/lib/button';
 import Input from 'react-toolbox/lib/input';
 import Dropdown from 'react-toolbox/lib/dropdown';
 
+import { withRequests } from 'common/util';
 import FormErrors from 'common/components/form/FormErrors';
 import { user_roles } from 'common/consts';
 import { Form } from 'common_form';
@@ -14,13 +15,11 @@ import { observeRequest } from 'common/util';
 
 import classes from './UserFormPage.css';
 
-
+@withRequests
 class UserFormPage extends React.Component {
     state = {
-        name: '',
-        email: '',
+        username: '',
         password: '',
-        phone_number: '',
         role: '',
         error: {}
     }
@@ -32,10 +31,10 @@ class UserFormPage extends React.Component {
         }
     }
 
-    componentWillReceiveProps({ user, request }) {
+    componentWillReceiveProps({ user }) {
         if (this.props.user !== user && user) {
-            const { name, email, phone_number, role } = user;
-            this.setState({ name, email, phone_number, role });
+            const { name, username, phone_number, role } = user;
+            this.setState({ name, username, phone_number, role });
         }
         this.props.observeRequest([createUser, updateUser], {
             end: () => this.props.router.push('/users'),
@@ -43,10 +42,10 @@ class UserFormPage extends React.Component {
         });
     }
 
-    handleSubmit = e => {
+    handleSubmit = () => {console.log(this.state)
         const { id } = this.props;
-        const { name, email, password, phone_number, role } = this.state;
-        const data = { name, email, password, phone_number, role };
+        const { username, password, role } = this.state;
+        const data = { username, password, role };
         id ? this.props.updateUser({ id, data }) : this.props.createUser({ data });
     }
 
@@ -62,19 +61,11 @@ class UserFormPage extends React.Component {
                 <FormErrors errors={error.form} />
                 <Input
                   type='text'
-                  label='Name'
-                  name='name'
-                  value={this.state.name}
-                  error={error.name && error.name.join('\r\n')}
-                  onChange={name => this.setState({ name })}
-                />
-                <Input
-                  type='email'
-                  label='Email'
-                  name='email'
-                  value={this.state.email}
-                  error={error.email && error.email.join('\r\n')}
-                  onChange={email => this.setState({ email })}
+                  label='Username'
+                  name='username'
+                  value={this.state.username}
+                  error={error.username && error.username.join('\r\n')}
+                  onChange={username => this.setState({ username })}
                 />
                 <Input
                   type='password'
@@ -83,14 +74,6 @@ class UserFormPage extends React.Component {
                   value={this.state.password}
                   error={error.password && error.password.join('\r\n')}
                   onChange={password => this.setState({ password })}
-                />
-                <Input
-                  type='text'
-                  label='Phone'
-                  name='phone'
-                  value={this.state.phone_number}
-                  error={error.phone_number && error.phone_number.join('\r\n')}
-                  onChange={phone_number => this.setState({ phone_number })}
                 />
                 <Dropdown
                   allowBlank

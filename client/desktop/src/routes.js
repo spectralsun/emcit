@@ -18,13 +18,6 @@ const externalRoutes = [
     makeCatchAllRoute('/login')
 ]
 
-const adminRoutes = [
-    { path: '/users', component: UserListPage },
-    { path: '/users/new', component: CreateUserPage },
-    { path: '/users/:id', component: UpdateUserPage },
-    makeCatchAllRoute('/users')
-];
-
 const reportRoutes = {
     component: ReportBuilder,
     childRoutes: [
@@ -32,6 +25,15 @@ const reportRoutes = {
         { path: '/reports/map', component: ReportMapPage }
     ]
 }
+
+const adminRoutes = [
+    { path: '/users', component: UserListPage },
+    { path: '/users/new', component: CreateUserPage },
+    { path: '/users/:id', component: UpdateUserPage },
+    { path: '/reports/details/:id', component: ReportDetailsPage },
+    reportRoutes,
+    makeCatchAllRoute('/users')
+];
 
 const analystRoutes = [
     { path: '/reports/details/:id', component: ReportDetailsPage },

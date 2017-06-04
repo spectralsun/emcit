@@ -9,12 +9,12 @@ import classes from './Navbar.css';
 export default /* Navbar */ ({ currentUser, currentUser: { role }, pathname }) => (
     <AppBar title="Emerald Citizen" fixed>
         <Navigation type="horizontal" className={classes.centerNav}>
-            {role === 'analyst' &&
+            {(role === 'admin' || role === 'analyst') &&
                 <div className={cx({[classes.activeNav]: pathname === '/reports/table'})} data-react-toolbox="link">
                     <Link to="/reports/table">Table</Link>
                 </div>
             }
-            {role === 'analyst' &&
+            {(role === 'admin' || role === 'analyst') &&
                 <div className={cx({[classes.activeNav]: pathname === '/reports/map'})} data-react-toolbox="link">
                     <Link to="/reports/map">Map</Link>
                 </div>

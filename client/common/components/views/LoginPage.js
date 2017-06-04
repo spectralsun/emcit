@@ -16,7 +16,7 @@ import classes from './LoginPage.css'
 @connect(null, { loginUser })
 export default class LoginPage extends React.Component {
     state = {
-        email: '',
+        username: '',
         password: '',
         error: {}
     };
@@ -30,8 +30,8 @@ export default class LoginPage extends React.Component {
 
     onSubmit = e => {
         this.setState({ error: {} });
-        const { email, password } = this.state;
-        this.props.loginUser({ data: { email, password }});
+        const { username, password } = this.state;
+        this.props.loginUser({ data: { username, password }});
     }
 
     render() {
@@ -43,12 +43,12 @@ export default class LoginPage extends React.Component {
                 </div>
                 <FormErrors errors={error.form} />
                 <Input
-                  value={this.state.email}
-                  className='email'
-                  type='email'
-                  label='Email'
-                  error={error.email && error.email.join('\r\n')}
-                  onChange={email => this.setState({email})}
+                  value={this.state.username}
+                  className='username'
+                  type='username'
+                  label='Username'
+                  error={error.username && error.username.join('\r\n')}
+                  onChange={username => this.setState({username})}
                 />
                 <Input
                   value={this.state.password}
