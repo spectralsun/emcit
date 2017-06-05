@@ -42,7 +42,7 @@ class UserFormPage extends React.Component {
         });
     }
 
-    handleSubmit = () => {console.log(this.state)
+    handleSubmit = () => {
         const { id } = this.props;
         const { username, password, role } = this.state;
         const data = { username, password, role };
