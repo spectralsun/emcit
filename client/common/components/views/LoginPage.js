@@ -44,15 +44,13 @@ export default class LoginPage extends React.Component {
                 <FormErrors errors={error.form} />
                 <Input
                   value={this.state.username}
-                  className='username'
-                  type='username'
+                  type='text'
                   label='Username'
                   error={error.username && error.username.join('\r\n')}
                   onChange={username => this.setState({username})}
                 />
                 <Input
                   value={this.state.password}
-                  className='password'
                   type='password'
                   label='Password'
                   error={error.password && error.password.join('\r\n')}
