@@ -52,7 +52,7 @@ def UserAdministrationResource(user):
         created_at=user.created_at,
         updated=user.updated,
         name=user.name,
-        email=user.email,
+        username=user.username,
         phone_number=user.phone_number,
         role=user.role
     )
@@ -62,7 +62,7 @@ def CurrentUserResource(user):
         return None
     return dict(
         name=user.name,
-        email=user.email,
+        username=user.username,
         phone_number=user.phone_number,
         role=user.role
     )

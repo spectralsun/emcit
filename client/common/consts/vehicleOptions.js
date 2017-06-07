@@ -5,6 +5,7 @@ export const COLOR_OPTIONS = [
 ]
 
 export const MODEL_OPTIONS = Object.entries({
+    "Other": ["Other"],
     "Chrysler": [
         "300",
         "pt cruiser",

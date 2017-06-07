@@ -17,17 +17,13 @@ export default class UserListPage extends React.Component {
         return (
             <Table selectable={false}>
                 <TableHead>
-                    <TableCell>Name</TableCell>
+                    <TableCell>Username</TableCell>
                     <TableCell>Role</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Phone</TableCell>
                 </TableHead>
                 {this.props.users.map((user, idx) => (
                     <TableRow key={idx}>
-                        <TableCell><Link to={`/users/${user.id}`}>{user.name}</Link></TableCell>
+                        <TableCell><Link to={`/users/${user.id}`}>{user.username}</Link></TableCell>
                         <TableCell>{user.role}</TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.phone_number}</TableCell>
                     </TableRow>
                 ))}
             </Table>

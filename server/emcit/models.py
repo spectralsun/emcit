@@ -13,22 +13,22 @@ class User(Model):
     User Model.
 
     Required parameters:
-        - email, password
+        - username, password
     """
 
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated = Column(DateTime, default=datetime.utcnow)
-    name = Column(String(255), nullable=False)
-    email = Column(String(255), nullable=False, unique=True)
+    name = Column(String(255), nullable=True)
+    username = Column(String(255), nullable=False, unique=True)
     password = Column(Text, nullable=False)
     phone_number = Column(String(20), nullable=True)
     role = Column(Enum('admin', 'analyst', 'reporter', name='user_role'), default='reporter')
 
-    def __init__(self, name, email, password, phone_number, role):
+    def __init__(self, name, username, password, phone_number, role):
         self.name = name
-        self.email = email.lower()
+        self.username = username.lower()
         self.set_password(password)
         self.phone_number = phone_number
         self.role = role
@@ -84,9 +84,9 @@ class User(Model):
         return cls.query.order_by(desc(cls.created_at)).all()
 
     @classmethod
-    def get_by_email(cls, email):
-        """Return user based on email."""
-        return cls.query.filter(cls.email == email).first()
+    def get_by_username(cls, username):
+        """Return user based on username."""
+        return cls.query.filter(cls.username == username).first()
 
     @classmethod
     def get_by_id(cls, id):
@@ -95,16 +95,16 @@ class User(Model):
     @staticmethod
     def from_json(data):
         return User(
-            data['name'],
-            data['email'],
-            data['password'],
-            data['phone_number'],
-            data['role']
+            data.get('name'),
+            data.get('username'),
+            data.get('password'),
+            data.get('phone_number'),
+            data.get('role')
         )
 
     def __repr__(self):
-        """Return <User: %(email)."""
-        return '<User %s>' % (self.email)
+        """Return <User: %(username)."""
+        return '<User %s>' % (self.username)
 
 
 class Person(Model):
@@ -261,7 +261,7 @@ class Report(Model):
 
     @classmethod
     def get_all(cls):
-        """Return user based on email."""
+        """Return user based on username."""
         return cls.query.all()
 
     @classmethod

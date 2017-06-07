@@ -1,7 +1,7 @@
 user_schema = {
     'id': {'type': 'number'},
-    'name': {'type': 'string', 'required': True, 'empty': False},
-    'email': {'type': 'string', 'required': True, 'empty': False},
+    'name': {'type': 'string', 'empty': False},
+    'username': {'type': 'string', 'required': True, 'empty': False},
     'password': {'type': 'string', 'required': True, 'empty': False},
     'phone_number': {'type': 'string'},
     'role': {'type': 'string', 'required': True, 'empty': False}
@@ -12,7 +12,7 @@ update_user_schema['password']['required'] = False
 update_user_schema['password']['empty'] = True
 
 login_schema = {
-    'email': {'type': 'string', 'required': True, 'empty': False},
+    'username': {'type': 'string', 'required': True, 'empty': False},
     'password': {'type': 'string', 'required': True, 'empty': False}
 }
 

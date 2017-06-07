@@ -7,7 +7,7 @@ import { PersonFormPage, ReportPage, VehicleFormPage } from 'c/views';
 
 const externalRoutes = [{ path: '*', component: LoginPage }]
 
-const reporterRoutes = [
+const routes = [
     { path: '/', component: ReportPage },
     { path: '/form/person/:id', component: PersonFormPage },
     { path: '/form/vehicle/:id', component: VehicleFormPage },
@@ -15,7 +15,9 @@ const reporterRoutes = [
 ];
 
 const routeMap = {
-    reporter: reporterRoutes,
+    reporter: routes,
+    admin: routes,
+    analyst: routes,
     external: externalRoutes
 }
 

@@ -27,8 +27,8 @@ def get_current_user():
 def login():
     json = request.get_json()
 
-    if 'email' in json:
-        user = User.get_by_email(json.get('email').lower())
+    if 'username' in json:
+        user = User.get_by_username(json.get('username').lower())
 
         if user is not None and user.check_password(json.get('password')):
             login_user(user)
